@@ -26,8 +26,10 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-
+    {{-- <link href="{{asset('assets/lib/ladda-buttons/css/ladda-themeless.min.css')}}" rel="stylesheet"
+        type="text/css" /> --}}
+    <script src="{{ asset('assets/lib/sweet-alert2/sweetalert2.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('assets/lib/sweet-alert2/sweetalert2.min.css')}}">
 </head>
 
 <body>
@@ -103,6 +105,8 @@
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/lib/ladda-buttons/js/spin.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/ladda-buttons/js/ladda.min.js') }}"></script> --}}
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>

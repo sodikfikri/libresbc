@@ -19,9 +19,11 @@ jQuery(function($) {
             State.table.list = $('#dataTable').DataTable({
                 paging: true,
                 processing: true,
+                responsive: true,
                 serverSide: true,
+                order: [[1, 'desc']],
                 ajax: {
-                    url: 'http://localhost:8000/api/enum/route',
+                    url: '/api/enum/route',
                     method: 'GET',
                     complete: function() {
                         $('#th-check').css('width', '10px')
@@ -29,11 +31,36 @@ jQuery(function($) {
                 },
                 columns: [
                     { data: 'check', orderable: false, className: "text-center" },
+                    { data: 'id', className: "text-center display-0" },
                     { data: 'destination_number', className: "text-center" },
                     { data: 'primary_route', className: "text-center" },
                     { data: 'secondary_route', className: "text-center" },
                     { data: 'action', className: "text-center" },
                 ]
+            })
+        },
+        Store: function(params) {
+            $.ajax({
+                url: '/api/enum/route/add',
+                method: 'POST',
+                data: params,
+                success: function(resp) {
+                    if (resp.meta.code == 200) {
+                        console.log('success');
+                        // Ladda.stopAll();
+                        toastMixin.fire({
+                            icon: "success",
+                            title: resp.meta.message,
+                        });
+                    } else {
+                        console.log('failed');
+                        // Ladda.stopAll();
+                        toastMixin.fire({
+                            icon: "error",
+                            title: resp.meta.message,
+                        });
+                    }
+                }
             })
         }
     }
@@ -52,7 +79,15 @@ jQuery(function($) {
         },
         add: function() {
             $('#save-route').on('click', function() {
-                alert(9999)
+
+                Swal.fire('Any fool can use a computer')
+                // let params = {
+                //     destination_number: $('#dest-number').val(),
+                //     primary_route: $('#primary-route').val(),
+                //     secondary_route: $('#secondary-route').val()
+                // }
+
+                // Route.API.Store(params)
             })
         }
     }

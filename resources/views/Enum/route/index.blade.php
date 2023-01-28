@@ -37,6 +37,7 @@
                                         <label class="form-check-label" for="exampleCheck1"></label>
                                     </div>
                                 </th>
+                                <th class="">id</th>
                                 <th>Destination Number</th>
                                 <th>Primary Route</th>
                                 <th>Secondary Route</th>
@@ -64,15 +65,15 @@
                     <form>
                         <div class="form-group">
                             <label for="">Destination Number</label>
-                            <input type="text" class="form-control" id="" required>
+                            <input type="text" class="form-control" id="dest-number" required>
                         </div>
                         <div class="form-group">
                             <label for="">Primary Route</label>
-                            <input type="text" class="form-control" id="" required>
+                            <input type="text" class="form-control" id="primary-route" required>
                         </div>
                         <div class="form-group">
                             <label for="">Secondary Route</label>
-                            <input type="text" class="form-control" id="" required>
+                            <input type="text" class="form-control" id="secondary-route" required>
                         </div>
                     </form>
                 </div>
@@ -90,43 +91,4 @@
 
 @section('scripts')
 <script src="{{ asset('assets/js/custom/enum/route.js') }}"></script>
-    {{-- <script>
-        let list = ''
-        let route_list = () => {
-            $('#dataTable').dataTable().fnDestroy();
-            list = $('#dataTable').DataTable({
-                paging: true,
-                processing: true,
-                serverSide: true,
-                // bAutoWidth: false,
-                // dom: "Blfrtip",
-                // language: {
-                //     search: "_INPUT_", //To remove Search Label
-                //     searchPlaceholder: "Search...",
-                //     processing: '<span class="text-danger"><i class="fas fa-spinner fa-spin"></i> ' + "Fetching Data</span>"
-                // },
-                // buttons: [
-                //     'copy', 'csv', 'excel', 'pdf', 'print'
-                // ],
-                ajax: {
-                    // headers: {
-                    //     'x-api-key': token
-                    // },
-                    url: 'http://localhost:8000/api/enum/route',
-                    method: 'GET',
-                    complete: function() {
-                        $('#th-check').css('width', '10px')
-                    }
-                },
-                columns: [
-                    { data: 'check', className: "text-center" },
-                    { data: 'destination_number', className: "text-center" },
-                    { data: 'primary_route', className: "text-center" },
-                    { data: 'secondary_route', className: "text-center" },
-                ]
-            })
-        }
-
-        route_list()
-    </script> --}}
 @endsection

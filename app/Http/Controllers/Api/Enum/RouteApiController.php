@@ -25,9 +25,10 @@ class RouteApiController extends Controller
 
             $listCheckerColumn = [
                 '0' => 'id',
-                '1' => 'destination_number',
-                '2' => 'primary_route',
-                '3' => 'secondary_route'
+                '1' => 'id',
+                '2' => 'destination_number',
+                '3' => 'primary_route',
+                '4' => 'secondary_route'
             ];
             
             $option = [
@@ -103,7 +104,22 @@ class RouteApiController extends Controller
 
             $store = $model->store($params);
 
-            dd($store);
+            if (!$store) {
+                $response = [
+                    'meta' => [
+                        'code' => 400,
+                        'message' => 'Failed to store data!'
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'Store data has success full!'
+                ]
+            ];
+            return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [
