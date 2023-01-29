@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Enum\RouteModel;
 
+use Illuminate\Support\Facades\Cookie;
+
 use Exception;
 
 class RouteApiController extends Controller
 {
-    public function list(Request $req)
+    public function List(Request $req)
     {
         try {
             $start = $req->start;
@@ -82,7 +84,7 @@ class RouteApiController extends Controller
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [
-                    'code' => 400,
+                    'code' => '400',
                     'message' => (string) $th->getMessage()
                 ]
             ];
@@ -90,24 +92,35 @@ class RouteApiController extends Controller
             return response()->json($response);
         }
     }
-
-    public function store(Request $req) 
+    public function Store(Request $req) 
     {
         try {
+            $model = new RouteModel();
+
             $params = [
-                'destination_number' => $req->destination_number,
+                'destination_number' => '+'.$req->destination_number,
                 'primary_route' => $req->primary_route,
                 'secondary_route' => $req->secondary_route
             ];
 
-            $model = new RouteModel();
+            $validate = $model->dst_chek('+'.$req->destination_number);
+            
+            if (count($validate) != 0) {
+                $response = [
+                    'meta' => [
+                        'code' => '400',
+                        'message' => 'Destination Number has been used!'
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
 
             $store = $model->store($params);
 
             if (!$store) {
                 $response = [
                     'meta' => [
-                        'code' => 400,
+                        'code' => '400',
                         'message' => 'Failed to store data!'
                     ]
                 ];
@@ -123,7 +136,54 @@ class RouteApiController extends Controller
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [
-                    'code' => 400,
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+    public function Update(Request $req)
+    {
+        try {
+            $model = new RouteModel();
+
+            $params = [
+                'destination_number' => '+'.$req->destination_number,
+                'primary_route' => $req->primary_route,
+                'secondary_route' => $req->secondary_route
+            ];
+            $id = [
+                'id' => $req->id
+            ];
+
+            if ($req->validate == '1') {
+                $validate = $model->dst_chek($params['destination_number']);
+                
+                if (count($validate) != 0) {
+                    $response = [
+                        'meta' => [
+                            'code' => '400',
+                            'message' => 'Destination Number has been used!'
+                        ]
+                    ];
+                    return response()->json($response, 200);
+                }
+            }
+
+            $doChange = $model->update($id, $params);
+
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'Update data has success full!'
+                ]
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
                     'message' => (string) $th->getMessage()
                 ]
             ];
@@ -131,4 +191,76 @@ class RouteApiController extends Controller
             return response()->json($response);
         }
     }
+    public function Detail(Request $request)
+    {
+        try {
+            // dd($request->token);
+            return response()->json($request->token, 200);
+            $model = new RouteModel();
+
+            $data = $model->detail($request->id);
+
+            if (!$data) {
+                $response = [
+                    'meta' => [
+                        'code' => 404,
+                        'message' => 'Data not found!'
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'Get data has success full!'
+                ],
+                'data' => $data[0]
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function Destroy(Request $req)
+    {
+        try {
+            $model = new RouteModel();
+
+            $del = $model->delete_data($req->id);
+            if (!$del) {
+                $response = [
+                    'meta' => [
+                        'code' => 400,
+                        'message' => 'Failed to delete data!'
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'Delete data has success full!'
+                ],
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
 }

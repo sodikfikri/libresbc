@@ -28,8 +28,8 @@
     <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     {{-- <link href="{{asset('assets/lib/ladda-buttons/css/ladda-themeless.min.css')}}" rel="stylesheet"
         type="text/css" /> --}}
-    <script src="{{ asset('assets/lib/sweet-alert2/sweetalert2.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('assets/lib/sweet-alert2/sweetalert2.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('assets/lib/sweet-alert2/sweetalert2.min.css')}}"> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.1/sweetalert2.min.js" integrity="sha512-vCI1Ba/Ob39YYPiWruLs4uHSA3QzxgHBcJNfFMRMJr832nT/2FBrwmMGQMwlD6Z/rAIIwZFX8vJJWDj7odXMaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -105,8 +105,7 @@
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/lib/ladda-buttons/js/spin.min.js') }}"></script>
-    <script src="{{ asset('assets/lib/ladda-buttons/js/ladda.min.js') }}"></script> --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>

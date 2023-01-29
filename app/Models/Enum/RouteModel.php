@@ -37,16 +37,40 @@ class RouteModel extends Model
                 'destination_number' => $val->destination_number,
                 'primary_route' => $val->primary_name,
                 'secondary_route' => $val->secondary_route,
-                'action' => '<button type="button" class="btn btn-warning btn-xs waves-effect mr-2" data-id="'.$val->id.'"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-xs waves-effect" data-id="'.$val->id.'"><i class="fas fa-trash"></i></button>'
+                'action' => '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-id="'.$val->id.'"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$val->id.'"><i class="fas fa-trash"></i></button>'
             ];
         }
 
         return $Obj;
     }
+
+    public function dst_chek($data) 
+    {
+        $data = DB::table('getroutev2')->where('destination_number', $data)->get();
+        return $data;
+    }
+
     public function store($data)
     {
         $ins = DB::table('getroutev2')->insert($data);
-
         return $ins;
+    }
+
+    public function update(array $id = [], array $data = [])
+    {
+        $update = DB::table('getroutev2')->where('id', $id)->update($data);
+        return $update;
+    }
+
+    public function detail($id)
+    {
+        $data = DB::table('getroutev2')->where('id', $id)->get();
+        return $data;
+    }
+
+    public function delete_data($id)
+    {
+        $data = DB::table('getroutev2')->whereIn('id', $id)->delete();
+        return $data;
     }
 }

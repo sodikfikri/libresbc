@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\Enum\RouteApiController;
+use App\Http\Controllers\Api\AuthApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/enum/route", [RouteApiController::class, "list"]);
-Route::post("/enum/route/add", [RouteApiController::class, "store"]);
+Route::post("/login", [AuthApiController::class, "Login"]);
+
+Route::get("/enum/route", [RouteApiController::class, "List"]);
+Route::get("/enum/route/detail", [RouteApiController::class, "Detail"]);
+Route::post("/enum/route/add", [RouteApiController::class, "Store"]);
+Route::put("/enum/route/update", [RouteApiController::class, "Update"]);
+Route::delete("/enum/route/delete", [RouteApiController::class, "Destroy"]);

@@ -24,27 +24,28 @@ use App\Http\Controllers\Enum\RouteController;
 Route::get('/', function () {
     return view('login');
 });
-
-Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->name('dashboard');
-
-Route::get('/cluster', [ClusterController::class, 'index'])->name('cluster-list');
-
-Route::get('/base/natalias', [BaseController::class, 'natalias_list'])->name('base-natalias-list');
-Route::get('/base/firewall', [BaseController::class, 'firewall_list'])->name('base-firewall-list');
-Route::get('/base/gateway', [BaseController::class, 'gateway_list'])->name('base-gateway-list');
-Route::get('/base/acl', [BaseController::class, 'acl_list'])->name('base-acl-list');
-
-Route::get('/sipprofile', [SipprofileController::class, 'index'])->name('sipprofile-list');
-
-Route::get('/class/capacity', [ClassController::class, 'capacity'])->name('capacity-list');
-Route::get('/class/manipulation', [ClassController::class, 'manipulation'])->name('manipulation-list');
-Route::get('/class/media', [ClassController::class, 'media'])->name('media-list');
-Route::get('/class/preanswer', [ClassController::class, 'preanswer'])->name('preanswer-list');
-Route::get('/class/translation', [ClassController::class, 'translation'])->name('translation-list');
-
-Route::get('/inter-conncection/in-bound', [InterConnectionController::class, 'inbound'])->name('inboud-list');
-Route::get('/inter-conncection/out-bound', [InterConnectionController::class, 'outbound'])->name('outboud-list');
-
-// ==================================== Enum Route ====================================
-Route::get('/route', [RouteController::class, 'route'])->name('enum-route');
+Route::group(['middleware' => ['token.verify']], function() {
+    Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->name('dashboard');
+    
+    Route::get('/cluster', [ClusterController::class, 'index'])->name('cluster-list');
+    
+    Route::get('/base/natalias', [BaseController::class, 'natalias_list'])->name('base-natalias-list');
+    Route::get('/base/firewall', [BaseController::class, 'firewall_list'])->name('base-firewall-list');
+    Route::get('/base/gateway', [BaseController::class, 'gateway_list'])->name('base-gateway-list');
+    Route::get('/base/acl', [BaseController::class, 'acl_list'])->name('base-acl-list');
+    
+    Route::get('/sipprofile', [SipprofileController::class, 'index'])->name('sipprofile-list');
+    
+    Route::get('/class/capacity', [ClassController::class, 'capacity'])->name('capacity-list');
+    Route::get('/class/manipulation', [ClassController::class, 'manipulation'])->name('manipulation-list');
+    Route::get('/class/media', [ClassController::class, 'media'])->name('media-list');
+    Route::get('/class/preanswer', [ClassController::class, 'preanswer'])->name('preanswer-list');
+    Route::get('/class/translation', [ClassController::class, 'translation'])->name('translation-list');
+    
+    Route::get('/inter-conncection/in-bound', [InterConnectionController::class, 'inbound'])->name('inboud-list');
+    Route::get('/inter-conncection/out-bound', [InterConnectionController::class, 'outbound'])->name('outboud-list');
+    
+    // ==================================== Enum Route ====================================
+    Route::get('/route', [RouteController::class, 'route'])->name('enum-route');
+});
 
