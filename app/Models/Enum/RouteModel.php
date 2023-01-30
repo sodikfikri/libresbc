@@ -73,4 +73,73 @@ class RouteModel extends Model
         $data = DB::table('getroutev2')->whereIn('id', $id)->delete();
         return $data;
     }
+
+    public function primary_route()
+    {
+        $data = DB::select('SELECT id,
+                            CASE
+                                WHEN primary_route = "141" then "TELIN_IP_HK"
+                                WHEN primary_route = "112" then "TELIN_GP_HK"
+                                WHEN primary_route = "110" then "TELIN_GP_SG"
+                                ELSE primary_route
+                            END primary_route
+                            FROM getroutev2 GROUP BY primary_route');
+        return $data;
+    }
+
+    public function import($data) 
+    {
+        try {
+            $arr = [];
+    
+            foreach($data as $key => $val) {
+                $validate = $this->dst_chek($val['Destination Number']);
+                if (count($validate) != 0) {
+                    $obj = [
+                        'destination_number' => $val['destination_number'],
+                        'primary_route' => $val['primary_route'],
+                        'secondary_route' => $val['secondary_route']
+                    ];
+        
+                    array_push($arr, $obj);
+                } else {
+                    $params = [
+                        'destination_number' => $val['destination_number'],
+                        'primary_route' => $val['primary_route'],
+                        'secondary_route' => $val['secondary_route'],
+                    ];
+                    $this->store($params);
+                }
+            }
+
+            $response = [
+                'code' => '200',
+                'message' => '',
+                'data' => $arr
+            ];
+
+            return $response;
+        } catch (Exception $e) {
+            $response = [
+                'code' => '400',
+                'message' => $e
+            ];
+            return $response;
+        }
+    }
+
+    public function export($data)
+    {
+        // $data = DB::table('getroutev2')->select('destination_number', 'primary_route', 'secondary_route')->whereIn('primary_route', $data)->get();
+        $data = DB::select('SELECT destination_number, 
+                            CASE
+                                WHEN primary_route = "141" then "TELIN_IP_HK"
+                                WHEN primary_route = "112" then "TELIN_GP_HK"
+                                WHEN primary_route = "110" then "TELIN_GP_SG"
+                                ELSE primary_route
+                            END primary_route,
+                            secondary_route
+                            FROM getroutev2 WHERE primary_route IN ('.$data.')');
+        return $data;
+    }
 }

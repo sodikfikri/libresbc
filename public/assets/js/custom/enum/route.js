@@ -2,7 +2,8 @@ jQuery(function($) {
     
     let State = {
         table: {
-            list: ''
+            list: '',
+            length: 10,
         },
         validate: {
             update: {
@@ -16,6 +17,7 @@ jQuery(function($) {
     Route.active = function() {
         Route.Evenet.active()
         Route.API.List()
+        Route.API.ListPrimaryRoute()
     }
 
     Route.API = {
@@ -34,6 +36,7 @@ jQuery(function($) {
                         $('#th-check').css('width', '10px')
                     }
                 },
+                pageLength: State.table.length,
                 columns: [
                     { data: 'check', orderable: false, className: "text-center" },
                     { data: 'id', className: "text-center display-0" },
@@ -76,7 +79,6 @@ jQuery(function($) {
                     id: id
                 },
                 success: function(resp) {
-                    return console.log(resp);
                     if (resp.meta.code == '200') {
                         let data = resp.data
                         let destnum = data.destination_number
@@ -148,6 +150,137 @@ jQuery(function($) {
                     Route.API.List()
                 }
             })
+        },
+        Import: function(params) {
+            // return console.log(JSON.stringify(params));
+            $.ajax({
+                url: '/api/enum/route/import',
+                method: 'POST',
+                data: {
+                    data: params
+                },
+                beforeSend: function() {
+                    $('#btn-icon-import').removeClass('fas fa-download')
+                    $('#btn-icon-import').addClass('fas fa-circle-notch fa-spin')
+                },
+                success: function(resp) {
+                    return console.log(resp);
+                    if (resp.meta.code == '200') {
+                        $('#total-data').html(resp.summary.total_data)
+                        $('#total-success').html(resp.summary.success)
+                        $('#total-failed').html(resp.summary.failed)
+
+                        if (resp.failed_import.length != 0) {
+                            $('#fail-data-import').removeClass('display-0')
+                            $.each(resp.failed_import, function(key, val) {
+                                $('#fail-data-import tbody').append(
+                                    `<tr style="background-color: #e74a3b; color: white;">
+                                        <td>${val.destination_number}</td>
+                                        <td>${val.primary_route}</td>
+                                        <td>${val.secondary_route}</td>
+                                    </tr>`
+                                )
+                            })
+                        }
+
+                        toastMixin.fire({
+                            icon: "success",
+                            title: resp.meta.message,
+                        });
+
+                        setTimeout(() => {
+                            $('#modalImport').modal('show')
+                        }, 1000);
+                    } else {
+                        toastMixin.fire({
+                            icon: "warning",
+                            title: resp.meta.message,
+                        });
+                    }
+                    Route.API.List()
+                },
+                complete: function() {
+                    $('#btn-icon-import').removeClass('fas fa-circle-notch fa-spin')
+                    $('#btn-icon-import').addClass('fas fa-download')
+                },
+                error: function(e) {
+                    console.log('error: ',e);
+                }
+            })
+        },
+        Export: function(params) {
+            $.ajax({
+                url: '/api/enum/route/export_data',
+                data: {
+                    data: params
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    $('#btn-icon-export').removeClass('fas fa-upload')
+                    $('#btn-icon-export').addClass('fas fa-circle-notch fa-spin')
+                },
+                success: function(resp) {
+                    $('#modalExport').modal('hide') 
+                    if (resp.meta.code == '200') {
+                        const items = resp.data
+                        const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+                        const header = Object.keys(items[0])
+                        const csv = [
+                            header.join(','), // header row first
+                            ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                        ].join('\r\n')
+    
+                        const blob = new Blob([csv], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.setAttribute('href', url)
+                        a.setAttribute('download', `Enum Route ${moment().format('YYYY-MM-DD')}.csv`);
+                        a.click()
+
+                        toastMixin.fire({
+                            icon: "success",
+                            title: resp.meta.message,
+                        });
+                    } else {
+                        toastMixin.fire({
+                            icon: "error",
+                            title: resp.meta.message,
+                        });
+                    }
+                },
+                complete: function() {
+                    $('#btn-icon-export').removeClass('fas fa-circle-notch fa-spin')
+                    $('#btn-icon-export').addClass('fas fa-upload')
+                },
+                error: function() {
+                    $('#modalExport').modal('hide') 
+                }
+            })
+        },
+        ListPrimaryRoute: function() {
+            $.ajax({
+                url: '/api/enum/route/primary_route',
+                method: 'GET',
+                success: function(resp) {
+                    if (resp.meta.code == 200) {
+                        $.each(resp.data, function(key, val) {
+                            $('#p-route').append(
+                                `<div class="col-3">
+                                    <span style="font-weight: bold">${val.primary_route}</span>
+                                </div>
+                                <div class="col-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input type-export" value="${val.primary_route}">
+                                            <label class="form-check-label" for="exampleCheck1"></label>
+                                        </div>
+                                    </div>
+                                </div>`
+                            )
+                        })
+                    }
+                }
+            })
         }
     }
 
@@ -183,9 +316,16 @@ jQuery(function($) {
 
             })
 
+            $('#import-data').on('click', function() {
+                $('#input-file').trigger('click')
+                // $('#modalImport').modal('show')
+            })
+
             this.add()
             this.update()
             this.multidelete()
+            this.import()
+            this.export()
         },
         add: function() {
             $('#save-route').on('click', function() {
@@ -245,6 +385,56 @@ jQuery(function($) {
                     }
                 })
                 // console.log(data);
+            })
+        },
+        import: function() {
+            $('#input-file').on('change', function() {
+                let file = document.getElementById("input-file").files;
+                // return console.log(file);
+                let reader = new FileReader()
+
+                reader.onload = function(e) {
+                    let data = e.target.result
+                    let workbook = XLSX.read(data, {type: 'binary'})
+                    workbook.SheetNames.forEach(function(sheetName) {
+                        let XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName])
+                        let json_object = JSON.stringify(XL_row_object)
+                        let arr_data = JSON.parse(json_object)
+                        // return console.log(arr_data);
+                        Route.API.Import(arr_data)
+                    })
+                }
+
+                reader.onerror = function(err) {
+                    console.log(err);
+                }
+        
+                reader.readAsBinaryString(file[0])
+            })
+        },
+        export: function() {
+            $('#export-data').on('click', function() {
+                $('#modalExport').modal('show')
+            })
+
+            $('#btn-export').on('click', function() {
+                let data = $('.type-export').map(function() {
+                    if ($(this).is(":checked")) {
+                        idx = $(this).val()
+                        return idx
+                    }
+                }).get();
+
+                if (data.length == 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'No data selected!',
+                    })
+                } else {
+                    Route.API.Export(data)      
+                }
+
             })
         }
     }

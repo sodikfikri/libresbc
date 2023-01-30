@@ -28,3 +28,6 @@ Route::get("/enum/route/detail", [RouteApiController::class, "Detail"]);
 Route::post("/enum/route/add", [RouteApiController::class, "Store"]);
 Route::put("/enum/route/update", [RouteApiController::class, "Update"]);
 Route::delete("/enum/route/delete", [RouteApiController::class, "Destroy"]);
+Route::post("/enum/route/import", [RouteApiController::class, "Import"]);
+Route::get("/enum/route/primary_route", [RouteApiController::class, "PrimaryRoute"]);
+Route::get("/enum/route/export_data", [RouteApiController::class, "Export"]);

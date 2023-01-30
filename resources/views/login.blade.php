@@ -14,10 +14,8 @@
     <!-- Custom fonts for this template-->
     {{-- {{asset('assets/img/favicon/favicon.ico')}} --}}
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.1/sweetalert2.min.js" integrity="sha512-vCI1Ba/Ob39YYPiWruLs4uHSA3QzxgHBcJNfFMRMJr832nT/2FBrwmMGQMwlD6Z/rAIIwZFX8vJJWDj7odXMaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
@@ -42,7 +40,7 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome To Dashboard SBC & Enum</h1>
+                                        <h1 class="h4 text-gray-900 mb-4"><strong>Dashboard SBC & Enum</strong></h1>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
@@ -56,21 +54,14 @@
                                         <button id="login" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
-                                        {{-- <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a> --}}
                                     </form>
-                                    <hr>
+                                    {{-- <hr>
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -92,9 +83,26 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $('#login').on('click', function() {
+        const toastMixin = Swal.mixin({
+            toast: true,
+            icon: "success",
+            title: "General Title",
+            animation: false,
+            position: "top-right",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+        });
+
+        $('#login').on('click', function(e) {
+            e.preventDefault()
             let params = {
                 username: $('#username').val(),
                 password: $('#password').val()
@@ -110,6 +118,11 @@
                 success: function(resp) {
                     if (resp.meta.code == '200') {
                         window.location.href = '/dashboard'
+                    } else {
+                        toastMixin.fire({
+                            icon: "warning",
+                            title: resp.meta.message,
+                        });
                     }
                 }
             })

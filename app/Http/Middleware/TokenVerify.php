@@ -18,10 +18,7 @@ class TokenVerify
             // dd($request->token);
             $request->jwt = JWT::decode($_COOKIE['token'], new Key(env('JWT_SECRET'), 'HS256'));
 
-            header('Set-Cookie: '.'failLogin');
-
         } catch (\Exception $e) {
-            dd($e);
             return redirect('/');
         }
 

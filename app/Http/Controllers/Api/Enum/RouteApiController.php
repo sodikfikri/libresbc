@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Enum\RouteModel;
-
+use App\Jobs\DispatchDataRoute;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\Import;
 use Illuminate\Support\Facades\Cookie;
 
 use Exception;
@@ -251,6 +253,144 @@ class RouteApiController extends Controller
                     'message' => 'Delete data has success full!'
                 ],
             ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function PrimaryRoute(Request $request)
+    {
+        try {
+            $model = new RouteModel();
+            $data = $model->primary_route();
+
+            if (count($data) == 0) {
+                $response = [
+                    'meta' => [
+                        'code' => '404',
+                        'message' => 'Data not found!'
+                    ],
+                    'data' => []
+                ];
+                return response()->json($response, 200);
+            }
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full'
+                ],
+                'data' => $data
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function Import(Request $request)
+    {
+        try {
+
+            $data = Excel::import(new Import, request()->file('file'));
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Success import data'
+                ]
+            ];
+            return response()->json($response, 200);
+            // $model = new RouteModel();
+            // $import = $model->import($request->data);
+
+            if ($import['code'] == '200') {
+                $fail_import = count($import['data']);
+                
+                $response = [
+                    'meta' => [
+                        'code' => '200',
+                        'message' => 'Success import data'
+                    ],
+                    'summary' => [
+                        'total_data' => $lng_data,
+                        'success' => $lng_data - $fail_import,
+                        'failed' => $fail_import,
+                    ],
+                    'failed_import' => $import['data']
+                ];
+                return response()->json($response, 200);
+            } else {
+                $response = [
+                    'meta' => [
+                        'code' => '400',
+                        'message' => 'Failed to import data',
+                        'error' => $import['message']
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function Export(Request $request)
+    {
+        try {
+            // dd($request->data);
+            $parmas = [];
+            foreach($request->data as $key => $val) {
+                if ($request->data[$key] == 'TELIN_GP_SG') {
+                    $params[$key] = '110';
+                } else if ($request->data[$key] == 'TELIN_GP_HK') {
+                    $params[$key] = '112';
+                } else if ($request->data[$key] == 'TELIN_IP_HK') {
+                    $params[$key] = '142';
+                } else {
+                    $params[$key] = '"'.$val.'"';
+                }
+            }
+            
+            $model = new RouteModel();
+            $data = $model->export(implode(',', $params));
+
+            if (count($data) == 0) {
+                $response = [
+                    'meta' => [
+                        'code' => '404',
+                        'message' => 'Data not found!'
+                    ],
+                    'data' => []
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full'
+                ],
+                'data' => $data
+            ];
+
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [

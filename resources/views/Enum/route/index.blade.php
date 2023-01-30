@@ -18,8 +18,13 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-6">
-                        <button class="btn btn-primary"><i class="fas fa-upload"></i></button>
-                        <button class="btn btn-primary"><i class="fas fa-download"></i></button>
+                        <input type="file" class="display-0" id="input-file">
+                        <button class="btn btn-primary" id="import-data">
+                            <i class="fas fa-download" id="btn-icon-import"></i>
+                        </button>
+                        <button class="btn btn-primary" id="export-data">
+                            <i class="fas fa-upload" id="btn-icon-export"></i>
+                        </button>
                         <button class="btn btn-primary" id="delete-multiple"><i class="fas fa-trash"></i></button>
                     </div>
                     <div class="col-6" style="text-align: right">
@@ -133,10 +138,98 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Response</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card bg-primary text-white shadow">
+                                <div class="card-body">
+                                    Total Data
+                                    <div class="text-white-50 small" id="total-data" style="font-weight: bold">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card bg-success text-white shadow">
+                                <div class="card-body">
+                                    Success
+                                    <div class="text-white-50 small" id="total-success" style="font-weight: bold">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card bg-danger text-white shadow">
+                                <div class="card-body">
+                                    Failed
+                                    <div class="text-white-50 small" id="total-failed" style="font-weight: bold">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-bordered class display-0" id="fail-data-import" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Destination Number</th>
+                                        <th>Primary Route</th>
+                                        <th>Secondary Route</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- <tr style="background-color: #e74a3b; color: white;">
+                                        <td>+111</td>
+                                        <td>+112</td>
+                                        <td>+113</td>
+                                    </tr> --}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalExport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Export Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        {{-- <label for="">Primary Route</label> --}}
+                        <div class="row" id="p-route">
+                            
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id=btn-export>Export</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </div>
 
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/js/custom/enum/route.js') }}"></script>
 @endsection
