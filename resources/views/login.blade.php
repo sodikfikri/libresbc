@@ -116,6 +116,7 @@
                 method: 'POST',
                 data: params,
                 success: function(resp) {
+                    console.log(resp);
                     if (resp.meta.code == '200') {
                         window.location.href = '/dashboard'
                     } else {

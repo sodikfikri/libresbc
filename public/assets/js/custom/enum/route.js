@@ -4,6 +4,12 @@ jQuery(function($) {
         table: {
             list: '',
             length: 10,
+            jobs: {
+                list: ''
+            },
+            failed: {
+                list: ''
+            }
         },
         validate: {
             update: {
@@ -18,6 +24,8 @@ jQuery(function($) {
         Route.Evenet.active()
         Route.API.List()
         Route.API.ListPrimaryRoute()
+        Route.API.ListJobs()
+        Route.API.ListFailed()
     }
 
     Route.API = {
@@ -28,7 +36,7 @@ jQuery(function($) {
                 processing: true,
                 responsive: true,
                 serverSide: true,
-                order: [[1, 'desc']],
+                // order: [[1, 'desc']],
                 ajax: {
                     url: '/api/enum/route',
                     method: 'GET',
@@ -39,7 +47,7 @@ jQuery(function($) {
                 pageLength: State.table.length,
                 columns: [
                     { data: 'check', orderable: false, className: "text-center" },
-                    { data: 'id', className: "text-center display-0" },
+                    // { data: 'id', className: "text-center display-0" },
                     { data: 'destination_number', className: "text-center" },
                     { data: 'primary_route', className: "text-center" },
                     { data: 'secondary_route', className: "text-center" },
@@ -68,6 +76,9 @@ jQuery(function($) {
                     }
                     $('#modalAdd').modal('hide')
                     State.table.list.ajax.reload()
+                },
+                complete: function() {
+                    Route.API.ListPrimaryRoute()
                 }
             })
         },
@@ -79,18 +90,23 @@ jQuery(function($) {
                     id: id
                 },
                 success: function(resp) {
+                    console.log(resp);
                     if (resp.meta.code == '200') {
                         let data = resp.data
                         let destnum = data.destination_number
-                        if (destnum.charAt(0) == '+') {
-                            $('#upt-dest-number').val(destnum.slice(1))
-                            State.validate.update.dst_num = destnum.slice(1)
-                        } else {
-                            $('#upt-dest-number').val(destnum)
-                            State.validate.update.dst_num = destnum
-                        }
 
-                        $('#upt-id').val(data.id)
+                        $('#upt-dest-number').val(destnum)
+                        
+                        // if (destnum.charAt(0) == '+') {
+                        //     $('#upt-dest-number').val(destnum.slice(1))
+                        //     State.validate.update.dst_num = destnum.slice(1)
+                        // } else {
+                        //     $('#upt-dest-number').val(destnum)
+                        //     State.validate.update.dst_num = destnum
+                        // }
+                            State.validate.update.dst_num = destnum
+
+                        $('#upt-id').val(data.destination_number)
                         $('#upt-primary-route').val(data.primary_route)
                         $('#upt-secondary-route').val(data.secondary_route)
 
@@ -124,6 +140,9 @@ jQuery(function($) {
                     }
                     $('#modalUpdate').modal('hide')
                     State.table.list.ajax.reload()
+                },
+                complete: function() {
+                    Route.API.ListPrimaryRoute()
                 }
             })
         },
@@ -156,52 +175,56 @@ jQuery(function($) {
             $.ajax({
                 url: '/api/enum/route/import',
                 method: 'POST',
-                data: {
-                    data: params
-                },
+                timeout: 0,
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: params,
                 beforeSend: function() {
                     $('#btn-icon-import').removeClass('fas fa-download')
                     $('#btn-icon-import').addClass('fas fa-circle-notch fa-spin')
                 },
                 success: function(resp) {
-                    return console.log(resp);
-                    if (resp.meta.code == '200') {
-                        $('#total-data').html(resp.summary.total_data)
-                        $('#total-success').html(resp.summary.success)
-                        $('#total-failed').html(resp.summary.failed)
+                    let data = JSON.parse(resp)
+                    if (data.meta.code == '200') {
+                        // $('#total-data').html(resp.summary.total_data)
+                        // $('#total-success').html(resp.summary.success)
+                        // $('#total-failed').html(resp.summary.failed)
 
-                        if (resp.failed_import.length != 0) {
-                            $('#fail-data-import').removeClass('display-0')
-                            $.each(resp.failed_import, function(key, val) {
-                                $('#fail-data-import tbody').append(
-                                    `<tr style="background-color: #e74a3b; color: white;">
-                                        <td>${val.destination_number}</td>
-                                        <td>${val.primary_route}</td>
-                                        <td>${val.secondary_route}</td>
-                                    </tr>`
-                                )
-                            })
-                        }
+                        // if (resp.failed_import.length != 0) {
+                        //     $('#fail-data-import').removeClass('display-0')
+                        //     $.each(resp.failed_import, function(key, val) {
+                        //         $('#fail-data-import tbody').append(
+                        //             `<tr style="background-color: #e74a3b; color: white;">
+                        //                 <td>${val.destination_number}</td>
+                        //                 <td>${val.primary_route}</td>
+                        //                 <td>${val.secondary_route}</td>
+                        //             </tr>`
+                        //         )
+                        //     })
+                        // }
 
                         toastMixin.fire({
                             icon: "success",
-                            title: resp.meta.message,
+                            title: data.meta.message,
                         });
 
-                        setTimeout(() => {
-                            $('#modalImport').modal('show')
-                        }, 1000);
+                        // setTimeout(() => {
+                        //     $('#modalImport').modal('show')
+                        // }, 1000);
                     } else {
                         toastMixin.fire({
                             icon: "warning",
                             title: resp.meta.message,
                         });
                     }
-                    Route.API.List()
+                    State.table.list.ajax.reload()
                 },
                 complete: function() {
                     $('#btn-icon-import').removeClass('fas fa-circle-notch fa-spin')
                     $('#btn-icon-import').addClass('fas fa-download')
+
+                    Route.API.ListPrimaryRoute()
                 },
                 error: function(e) {
                     console.log('error: ',e);
@@ -263,6 +286,7 @@ jQuery(function($) {
                 method: 'GET',
                 success: function(resp) {
                     if (resp.meta.code == 200) {
+                        $('#p-route').empty()
                         $.each(resp.data, function(key, val) {
                             $('#p-route').append(
                                 `<div class="col-3">
@@ -280,6 +304,66 @@ jQuery(function($) {
                         })
                     }
                 }
+            })
+        },
+        ListJobs: function() {
+            $('#table-jobs').dataTable().fnDestroy();
+            State.table.jobs.list = $('#table-jobs').DataTable({
+                paging: true,
+                processing: true,
+                responsive: true,
+                ajax: {
+                    url: '/api/enum/route/jobs_list',
+                    method: 'GET',
+                },
+                columns: [
+                    { render: (data, type, row, meta) => meta.row + 1, },
+                    { data: 'queue', className: "text-center" },
+                    { 
+                        render: function(data, type, row, meta) {
+                            let dt = ''
+                            if (row.attempts == 1) {
+                                dt = `<span class="badge badge-primary">Running</span>`
+                            } else if (row.attempts == 0) {
+                                dt = `<span class="badge badge-warning">Pending</span>`
+                            } else {
+                                dt = `<span class="">${row.attempts}</span>`
+                            }
+
+                            return dt;
+                        },
+                        className: "text-center"
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+                            return moment.unix(row.created_at).format('YYYY-MM-DD HH:mm')
+                        },
+                        className: "text-center"
+                    },
+                ]
+            })
+        },
+        ListFailed: function() {
+            $('#table-failed').dataTable().fnDestroy();
+            State.table.jobs.list = $('#table-failed').DataTable({
+                paging: true,
+                processing: true,
+                responsive: true,
+                ajax: {
+                    url: '/api/enum/route/failed_list',
+                    method: 'GET',
+                },
+                columns: [
+                    { render: (data, type, row, meta) => meta.row + 1, },
+                    { data: 'destination_number', className: "text-center" },
+                    { 
+                        render: function(data, type, row, meta) {
+                            return `<span class="badge badge-danger">${row.status}</span>`;
+                        },
+                        className: "text-center"
+                    },
+                    { data: 'reason' },
+                ]
             })
         }
     }
@@ -318,7 +402,6 @@ jQuery(function($) {
 
             $('#import-data').on('click', function() {
                 $('#input-file').trigger('click')
-                // $('#modalImport').modal('show')
             })
 
             this.add()
@@ -326,6 +409,31 @@ jQuery(function($) {
             this.multidelete()
             this.import()
             this.export()
+            this.navTabs()
+        },
+        navTabs: function() {
+            $('.nav-link').on('click', function() {
+                $('.nav-link').removeClass('active')
+                $(this).addClass('active')
+
+                let type = $(this).data('type')
+                switch (type) {
+                    case 'tab-list':
+                        $('.tab-pane').removeClass('active')
+                        $('#list').addClass('active')
+                        break;
+                    case 'tab-jobs':
+                        $('.tab-pane').removeClass('active')
+                        $('#jobs').addClass('active')
+                        break;
+                    case 'tab-failed':
+                        $('.tab-pane').removeClass('active')
+                        $('#ins-failed').addClass('active')
+                        break;
+                    default:
+                        break;
+                }
+            })
         },
         add: function() {
             $('#save-route').on('click', function() {
@@ -390,7 +498,10 @@ jQuery(function($) {
         import: function() {
             $('#input-file').on('change', function() {
                 let file = document.getElementById("input-file").files;
-                // return console.log(file);
+                let form = new FormData();
+                    form.append("file", file[0])
+                Route.API.Import(form)
+                return false
                 let reader = new FileReader()
 
                 reader.onload = function(e) {

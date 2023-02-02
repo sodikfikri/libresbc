@@ -12,47 +12,90 @@
         </div>
 
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-            </div>
+            {{-- <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div> --}}
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <input type="file" class="display-0" id="input-file">
-                        <button class="btn btn-primary" id="import-data">
-                            <i class="fas fa-download" id="btn-icon-import"></i>
-                        </button>
-                        <button class="btn btn-primary" id="export-data">
-                            <i class="fas fa-upload" id="btn-icon-export"></i>
-                        </button>
-                        <button class="btn btn-primary" id="delete-multiple"><i class="fas fa-trash"></i></button>
+                <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#list" data-type="tab-list" style="font-weight: bold">List</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#jobs" data-type="tab-jobs" style="font-weight: bold">Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#ins-failed" data-type="tab-failed" style="font-weight: bold">Failed</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="list" aria-expanded="true">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <form class="display-0" id="form-input-file" action="" enctype="multipart/form-data">
+                                    <input type="file" name="file" class="display-0" id="input-file">
+                                    <button type="submit" id="btn-submit-input-file"></button>
+                                </form>
+                                <button class="btn btn-primary" id="import-data">
+                                    <i class="fas fa-download" id="btn-icon-import"></i>
+                                </button>
+                                <button class="btn btn-primary" id="export-data">
+                                    <i class="fas fa-upload" id="btn-icon-export"></i>
+                                </button>
+                                <button class="btn btn-primary" id="delete-multiple"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="col-6" style="text-align: right">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Data</button>
+                                {{-- <button class="btn btn-primary" id="btn-test">Add Data</button> --}}
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th id="th-check" style="width: 10px!important;">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="input-th-check">
+                                                <label class="form-check-label" for="exampleCheck1"></label>
+                                            </div>
+                                        </th>
+                                        {{-- <th class="">id</th> --}}
+                                        <th>Destination Number</th>
+                                        <th>Primary Route</th>
+                                        <th>Secondary Route</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-6" style="text-align: right">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Data</button>
-                        {{-- <button class="btn btn-primary" id="btn-test">Add Data</button> --}}
+                    <div role="tabpanel" class="tab-pane" id="jobs" aria-expanded="true">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="table-jobs" width="100%" cellspacing="0">
+                                <thead>
+                                    <th style="width: 10px">No</th>
+                                    <th>Queue</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th id="th-check" style="width: 10px!important;">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="input-th-check">
-                                        <label class="form-check-label" for="exampleCheck1"></label>
-                                    </div>
-                                </th>
-                                <th class="">id</th>
-                                <th>Destination Number</th>
-                                <th>Primary Route</th>
-                                <th>Secondary Route</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <div role="tabpanel" class="tab-pane" id="ins-failed" aria-expanded="true">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="table-failed" width="100%" cellspacing="0">
+                                <thead>
+                                    <th>No</th>
+                                    <th>Destination Number</th>
+                                    <th>Status</th>
+                                    <th>Reason</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

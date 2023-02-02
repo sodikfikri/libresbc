@@ -30,8 +30,7 @@ class AuthApiController extends Controller
             if($validator->fails()) throw new Exception($validator->errors()->first());
 
             $user = DB::table('users')->where('username', $username)->get();
-
-            if (!$user) {
+            if (count($user) == 0) {
                 $response = [
                     'meta' => [
                         'code' => '404',
@@ -40,7 +39,7 @@ class AuthApiController extends Controller
                 ];
                 return response()->json($response, 200);
             }
-
+            
             if(!Hash::check($password, $user[0]->password)) {
                 throw new Exception('Username or Password is wrong!');
             }

@@ -28,8 +28,8 @@ class RouteApiController extends Controller
             $limit = $skip . ',' . $numPerPage;
 
             $listCheckerColumn = [
-                '0' => 'id',
-                '1' => 'id',
+                '0' => 'destination_number',
+                '1' => 'destination_number',
                 '2' => 'destination_number',
                 '3' => 'primary_route',
                 '4' => 'secondary_route'
@@ -44,7 +44,7 @@ class RouteApiController extends Controller
                     'offset' => $skip
                 ],
                 'order' => [
-                    'column' => !empty($req->order[0]['column']) ? $listCheckerColumn[$req->order[0]['column']] : 'id',
+                    'column' => !empty($req->order[0]['column']) ? $listCheckerColumn[$req->order[0]['column']] : 'destination_number',
                     'dir' => $req->order[0]['dir'] ?? 'desc',
                 ],
             ];
@@ -196,9 +196,10 @@ class RouteApiController extends Controller
     public function Detail(Request $request)
     {
         try {
-            // dd($request->token);
-            return response()->json($request->token, 200);
             $model = new RouteModel();
+            // $test = $model->test();
+            // dd($request->id);
+
 
             $data = $model->detail($request->id);
 
@@ -315,32 +316,32 @@ class RouteApiController extends Controller
             // $model = new RouteModel();
             // $import = $model->import($request->data);
 
-            if ($import['code'] == '200') {
-                $fail_import = count($import['data']);
+            // if ($import['code'] == '200') {
+            //     $fail_import = count($import['data']);
                 
-                $response = [
-                    'meta' => [
-                        'code' => '200',
-                        'message' => 'Success import data'
-                    ],
-                    'summary' => [
-                        'total_data' => $lng_data,
-                        'success' => $lng_data - $fail_import,
-                        'failed' => $fail_import,
-                    ],
-                    'failed_import' => $import['data']
-                ];
-                return response()->json($response, 200);
-            } else {
-                $response = [
-                    'meta' => [
-                        'code' => '400',
-                        'message' => 'Failed to import data',
-                        'error' => $import['message']
-                    ]
-                ];
-                return response()->json($response, 200);
-            }
+            //     $response = [
+            //         'meta' => [
+            //             'code' => '200',
+            //             'message' => 'Success import data'
+            //         ],
+            //         'summary' => [
+            //             'total_data' => $lng_data,
+            //             'success' => $lng_data - $fail_import,
+            //             'failed' => $fail_import,
+            //         ],
+            //         'failed_import' => $import['data']
+            //     ];
+            //     return response()->json($response, 200);
+            // } else {
+            //     $response = [
+            //         'meta' => [
+            //             'code' => '400',
+            //             'message' => 'Failed to import data',
+            //             'error' => $import['message']
+            //         ]
+            //     ];
+            //     return response()->json($response, 200);
+            // }
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [
@@ -392,6 +393,42 @@ class RouteApiController extends Controller
             ];
 
             return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function JobList(Request $request)
+    {
+        try {
+            $model = new RouteModel();
+            $data = $model->jobs_list();
+
+            return datatables()->of($data)->make(true);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function FailedList(Request $request)
+    {
+        try {
+            $model = new RouteModel();
+            $data = $model->failed_list();
+            // dd($data);
+            return datatables()->of($data)->make(true);
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [
