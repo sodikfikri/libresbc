@@ -197,9 +197,6 @@ class RouteApiController extends Controller
     {
         try {
             $model = new RouteModel();
-            // $test = $model->test();
-            // dd($request->id);
-
 
             $data = $model->detail($request->id);
 
@@ -427,8 +424,43 @@ class RouteApiController extends Controller
         try {
             $model = new RouteModel();
             $data = $model->failed_list();
-            // dd($data);
+            
             return datatables()->of($data)->make(true);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function GetMasterPrimary(Request $request)
+    {
+        try {
+            $model = new RouteModel();
+            $data = $model->data_master_primary();
+            // dd($data);
+            if (!$data) {
+                $response = [
+                    'meta' => [
+                        'code' => '404',
+                        'message' => 'Data not found!'
+                    ]
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full!'
+                ],
+                'data' => $data
+            ];
+            return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Enum\RouteApiController;
 use App\Http\Controllers\Api\ClusterApiController;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Controllers\Api\SipprofileApiController;
+use App\Http\Controllers\Api\ClassApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::delete("/enum/route/delete", [RouteApiController::class, "Destroy"]);
 Route::post("/enum/route/import", [RouteApiController::class, "Import"]);
 Route::get("/enum/route/primary_route", [RouteApiController::class, "PrimaryRoute"]);
 Route::get("/enum/route/export_data", [RouteApiController::class, "Export"]);
+Route::get("/enum/route/master_primary", [RouteApiController::class, "GetMasterPrimary"]);
 
 // ============================ Cluster Route ============================ // 
 Route::get("/cluster/list", [ClusterApiController::class, "List"]);
@@ -49,3 +51,9 @@ Route::get("/base/gateway/list", [BaseApiController::class, "Gateway_list"]);
 
 // ============================ Sipprofile Route ============================ // 
 Route::get("/sipprofile/list", [SipprofileApiController::class, "List"]);
+
+// ============================ Class Route ============================ // 
+Route::get("/class/media/list", [ClassApiController::class, "Media_list"]);
+Route::get("/class/capacity/list", [ClassApiController::class, "Capacity_list"]);
+Route::get("/class/translation/list", [ClassApiController::class, "Translation_list"]);
+Route::get("/class/manipulation/list", [ClassApiController::class, "Manipulation_list"]);

@@ -174,4 +174,11 @@ class RouteModel extends Model
 
         return $arr;
     }
+
+    public function data_master_primary()
+    {
+        $data = DB::table('master_primary')->select('id', 'name', 'is_active')->where('is_active', 1)->get();
+        // $data = DB::table('getroutev2')->where('destination_number', '+'.'67074508336')->get();
+        return $data;
+    }
 }

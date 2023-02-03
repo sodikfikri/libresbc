@@ -32,7 +32,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#table').dataTable()
-    </script>
+<script src="{{ asset('assets/js/custom/class/media.js') }}"></script>
 @endsection

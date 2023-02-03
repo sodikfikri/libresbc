@@ -125,12 +125,19 @@
                             {{-- <input type="text" class="form-control" id="dest-number" required> --}}
                         </div>
                         <div class="form-group">
+                            {{-- <label for="">Primary Route</label>
+                            <input type="text" class="form-control" id="primary-route" required> --}}
                             <label for="">Primary Route</label>
-                            <input type="text" class="form-control" id="primary-route" required>
+                            <select class="form-control" id="primary-route">
+                                
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">Secondary Route</label>
-                            <input type="text" class="form-control" id="secondary-route" required>
+                            {{-- <input type="text" class="form-control" id="secondary-route" required> --}}
+                            <select class="form-control" id="secondary-route">
+                                
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -160,16 +167,22 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">+</div>
                                 </div>
-                                <input type="text" class="form-control" id="upt-dest-number">
+                                <input type="text" class="form-control" id="upt-dest-number" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="">Primary Route</label>
-                            <input type="text" class="form-control" id="upt-primary-route" required>
+                            {{-- <input type="text" class="form-control" id="upt-primary-route" required> --}}
+                            <select class="form-control" id="upt-primary-route" required>
+                                
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">Secondary Route</label>
-                            <input type="text" class="form-control" id="upt-secondary-route" required>
+                            {{-- <input type="text" class="form-control" id="upt-secondary-route" required> --}}
+                            <select class="form-control" id="upt-secondary-route" required>
+                                
+                            </select>
                         </div>
                     </form>
                 </div>

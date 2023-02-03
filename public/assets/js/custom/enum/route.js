@@ -15,6 +15,10 @@ jQuery(function($) {
             update: {
                 dst_num: ''
             }
+        },
+        detail: {
+            primary_route: '',
+            secondary_route: ''
         }
     }
 
@@ -26,6 +30,7 @@ jQuery(function($) {
         Route.API.ListPrimaryRoute()
         Route.API.ListJobs()
         Route.API.ListFailed()
+        Route.API.MasterPrimary()
     }
 
     Route.API = {
@@ -90,21 +95,23 @@ jQuery(function($) {
                     id: id
                 },
                 success: function(resp) {
-                    console.log(resp);
                     if (resp.meta.code == '200') {
                         let data = resp.data
                         let destnum = data.destination_number
-
+                        
                         $('#upt-dest-number').val(destnum)
                         
-                        // if (destnum.charAt(0) == '+') {
-                        //     $('#upt-dest-number').val(destnum.slice(1))
-                        //     State.validate.update.dst_num = destnum.slice(1)
-                        // } else {
-                        //     $('#upt-dest-number').val(destnum)
-                        //     State.validate.update.dst_num = destnum
-                        // }
+                        if (destnum.charAt(0) == '+') {
+                            $('#upt-dest-number').val(destnum.slice(1))
+                            State.validate.update.dst_num = destnum.slice(1)
+                        } else {
+                            $('#upt-dest-number').val(destnum)
                             State.validate.update.dst_num = destnum
+                        }
+
+                        State.validate.update.dst_num = destnum
+                        State.detail.primary_route = data.primary_route
+                        State.detail.secondary_route =data.secondary_route  
 
                         $('#upt-id').val(data.destination_number)
                         $('#upt-primary-route').val(data.primary_route)
@@ -126,7 +133,6 @@ jQuery(function($) {
                 method: 'PUT',
                 data: params,
                 success: function(resp) {
-                    console.log(resp);
                     if (resp.meta.code == '200') {
                         toastMixin.fire({
                             icon: "success",
@@ -364,6 +370,30 @@ jQuery(function($) {
                     },
                     { data: 'reason' },
                 ]
+            })
+        },
+        MasterPrimary: function() {
+            $.ajax({
+                url: '/api/enum/route/master_primary',
+                method: 'GET',
+                success: function(resp) {
+                    if (resp.meta.code == '200') {
+                        $.each(resp.data, function(key, val) {
+                            $('#primary-route').append(
+                                `<option value="${val.name}">${val.name}</option>`
+                            )
+                            $('#secondary-route').append(
+                                `<option value="${val.name}">${val.name}</option>`
+                            )
+                            $('#upt-primary-route').append(
+                                `<option value="${val.name}" ${State.detail.primary_route == val.name ? 'selected' : ''}>${val.name}</option>`
+                            )
+                            $('#upt-secondary-route').append(
+                                `<option value="${val.name}" ${State.detail.primary_route == val.name ? 'selected' : ''}>${val.name}</option>`
+                            )
+                        })
+                    }
+                }
             })
         }
     }
