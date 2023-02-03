@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ClusterApiController;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Controllers\Api\SipprofileApiController;
 use App\Http\Controllers\Api\ClassApiController;
+use App\Http\Controllers\Api\InterConnectionApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,3 +58,7 @@ Route::get("/class/media/list", [ClassApiController::class, "Media_list"]);
 Route::get("/class/capacity/list", [ClassApiController::class, "Capacity_list"]);
 Route::get("/class/translation/list", [ClassApiController::class, "Translation_list"]);
 Route::get("/class/manipulation/list", [ClassApiController::class, "Manipulation_list"]);
+
+// ============================ Class Route ============================ // 
+Route::get("/inter/inbound/list", [InterConnectionApiController::class, "InBound_list"]);
+Route::get("/inter/outbound/list", [InterConnectionApiController::class, "OutBound_list"]);
