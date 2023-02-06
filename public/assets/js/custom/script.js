@@ -127,8 +127,12 @@ $(document).ready(function ($) {
                         $('#sub-inter').trigger('click')
                     }
                     break;
-                case 'route':
+                case 'routing':
                     $('#menu-configuration').trigger('click')
+
+                    if (State.pathName[2] == 'table' || State.pathName[2] == 'record') {
+                        $('#sub-routing').trigger('click')
+                    }
                     break;
                 default:
                     break;

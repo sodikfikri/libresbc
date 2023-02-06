@@ -271,6 +271,9 @@
                         <div class="row" id="p-route">
                             
                         </div>
+
+                        {{-- <input type="checkbox" data-toggle="switchbutton" checked data-style="ios"> --}}
+
                     </form>
                 </div>
                 <div class="modal-footer">

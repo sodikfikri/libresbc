@@ -7,6 +7,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Controllers\SipprofileController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\InterConnectionController;
+use App\Http\Controllers\RoutingController;
 
 use App\Http\Controllers\Enum\RouteController;
 
@@ -44,6 +45,9 @@ Route::group(['middleware' => ['token.verify']], function() {
     
     Route::get('/inter-conncection/in-bound', [InterConnectionController::class, 'inbound'])->name('inboud-list');
     Route::get('/inter-conncection/out-bound', [InterConnectionController::class, 'outbound'])->name('outboud-list');
+    
+    Route::get('/routing/table', [RoutingController::class, 'table_list'])->name('table-list');
+    Route::get('/routing/record', [RoutingController::class, 'record'])->name('record-list');
     
     // ==================================== Enum Route ====================================
     Route::get('/route', [RouteController::class, 'route'])->name('enum-route');

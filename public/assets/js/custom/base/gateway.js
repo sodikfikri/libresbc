@@ -36,12 +36,76 @@ jQuery(function($) {
                     { data: 'action' },
                 ]
             })
+        },
+        Detail: function(name) {
+            $.ajax({
+                url: '/api/base/gateway/detail?name='+name,
+                method: 'GET',
+                success: function(resp) {
+                    if (resp.meta.code == '200') {
+                        let data = resp.data
+                        $('#upt-name').val(data.name)
+                        $('#upt-desc').val(data.desc)
+                        $('#upt-username').val(data.username)
+                        $('#upt-password').val(data.password)
+                        $('#upt-proxy').val(data.proxy)
+                        $('#upt-port').val(data.port)
+                        $('#upt-transport').val(data.transport)
+                        $('#upt-cid-type').val(data.cid_type)
+                        $('#upt-ping').val(data.ping)
+
+                        if (data.do_register) {
+                            $('#upt-do-regist').val('1') // true
+                            $('#upt-do-regist').closest('.switch').removeClass('btn-light off')
+                            $('#upt-do-regist').closest('.switch').addClass('btn-primary')
+                        } else {
+                            $('#upt-do-regist').val('0') // false
+                            $('#upt-do-regist').closest('.switch').removeClass('btn-primary')
+                            $('#upt-do-regist').closest('.switch').addClass('btn-light off')
+                        }
+
+                        if (data.caller_id_in_from) {
+                            $('#upt-call-id').val('1') // true
+                            $('#upt-call-id').closest('.switch').removeClass('btn-light off')
+                            $('#upt-call-id').closest('.switch').addClass('btn-primary')
+                        } else {
+                            $('#upt-call-id').val('0') // false
+                            $('#upt-call-id').closest('.switch').removeClass('btn-primary')
+                            $('#upt-call-id').closest('.switch').addClass('btn-light off')
+                        }
+
+                    }
+                },
+                error: function(err) {
+                    console.log('error: ', err);
+                }
+            })
         }
     }
 
     Gateway.Event = {
         active: function() {
 
+            $(document).on('change', '#upt-do-regist', function() {
+                if ($(this).is(':checked')) {
+                    $(this).val('1')
+                } else {
+                    $(this).val('0')
+                }
+            })
+
+            $(document).on('change', '#upt-call-id', function() {
+                if ($(this).is(':checked')) {
+                    $(this).val('1')
+                } else {
+                    $(this).val('0')
+                }
+            })
+
+            $(document).on('click', '#btn-detail', function() {
+                $('#modalDetail').modal('show')
+                Gateway.API.Detail($(this).data('name'))
+            })
         }
     }
 

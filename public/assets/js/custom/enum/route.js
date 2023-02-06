@@ -13,7 +13,8 @@ jQuery(function($) {
         },
         validate: {
             update: {
-                dst_num: ''
+                dst_num: '',
+                is_update: '0'
             }
         },
         detail: {
@@ -296,12 +297,12 @@ jQuery(function($) {
                         $.each(resp.data, function(key, val) {
                             $('#p-route').append(
                                 `<div class="col-3">
-                                    <span style="font-weight: bold">${val.primary_route}</span>
+                                    <span style="font-weight: bold">${val.name}</span>
                                 </div>
-                                <div class="col-1">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input type-export" value="${val.primary_route}">
+                                            <input type="checkbox" class="form-check-input type-export" value="${val.name}">
                                             <label class="form-check-label" for="exampleCheck1"></label>
                                         </div>
                                     </div>
@@ -478,6 +479,14 @@ jQuery(function($) {
             })
         },
         update: function() {
+            $('#upt-dest-number').on('keyup', function() {
+                if (State.validate.update.dst_num == $(this).val()) {
+                    State.validate.update.is_update = '0'
+                } else {
+                    State.validate.update.is_update = '1'
+                }
+            })
+
             $('#update-route').on('click', function() {
 
                 let params = {
@@ -485,7 +494,7 @@ jQuery(function($) {
                     destination_number: $('#upt-dest-number').val(),
                     primary_route: $('#upt-primary-route').val(),
                     secondary_route: $('#upt-secondary-route').val(),
-                    validate: $('#upt-dest-number').val() == State.validate.update.dst_num ? '0' : '1'
+                    validate: State.validate.update.is_update
                 }
                 // return console.log(params);
                 Route.API.Update(params)

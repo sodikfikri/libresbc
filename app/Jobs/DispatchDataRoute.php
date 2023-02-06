@@ -39,10 +39,11 @@ class DispatchDataRoute implements ShouldQueue
         foreach($this->data as $key => $val) {
             $ck = DB::table('testroutev2')->where('destination_number', $val['destination_number'])->get();
             if (count($ck) == 0) {
+                $val['created_at'] = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
                 array_push($arr_push, $val);
             } else {
                 $val['reason'] = 'data laready exists';
-                $val['created_at'] = Carbon::now()->timestamp;
+                $val['created_at'] = Carbon::now('Asia/Jakarta')->timestamp;
                 DB::table('failed_insert')->insert($val);
             }
         }

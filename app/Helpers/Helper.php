@@ -20,7 +20,7 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         // $output contains the output string 
-        $res = curl_exec($ch); 
+        $res = curl_exec($ch);
         // tutup curl 
         curl_close($ch);
 

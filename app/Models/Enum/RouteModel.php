@@ -81,14 +81,15 @@ class RouteModel extends Model
 
     public function primary_route()
     {
-        $data = DB::select('SELECT destination_number,
-                            CASE
-                                WHEN primary_route = "141" then "TELIN_IP_HK"
-                                WHEN primary_route = "112" then "TELIN_GP_HK"
-                                WHEN primary_route = "110" then "TELIN_GP_SG"
-                                ELSE primary_route
-                            END primary_route
-                            FROM testroutev2 GROUP BY primary_route');
+        // $data = DB::select('SELECT destination_number,
+        //                     CASE
+        //                         WHEN primary_route = "141" then "TELIN_IP_HK"
+        //                         WHEN primary_route = "112" then "TELIN_GP_HK"
+        //                         WHEN primary_route = "110" then "TELIN_GP_SG"
+        //                         ELSE primary_route
+        //                     END primary_route
+        //                     FROM testroutev2 GROUP BY primary_route');
+        $data = DB::table('master_primary')->where('is_active', '1')->get();
         return $data;
     }
 

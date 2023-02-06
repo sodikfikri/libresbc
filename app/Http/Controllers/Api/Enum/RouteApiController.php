@@ -10,6 +10,7 @@ use App\Jobs\DispatchDataRoute;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Import;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Carbon;
 
 use Exception;
 
@@ -94,6 +95,7 @@ class RouteApiController extends Controller
             return response()->json($response);
         }
     }
+
     public function Store(Request $req) 
     {
         try {
@@ -102,9 +104,9 @@ class RouteApiController extends Controller
             $params = [
                 'destination_number' => '+'.$req->destination_number,
                 'primary_route' => $req->primary_route,
-                'secondary_route' => $req->secondary_route
+                'secondary_route' => $req->secondary_route,
+                'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
             ];
-
             $validate = $model->dst_chek('+'.$req->destination_number);
             
             if (count($validate) != 0) {
@@ -145,6 +147,7 @@ class RouteApiController extends Controller
             return response()->json($response);
         }
     }
+
     public function Update(Request $req)
     {
         try {
@@ -153,7 +156,8 @@ class RouteApiController extends Controller
             $params = [
                 'destination_number' => '+'.$req->destination_number,
                 'primary_route' => $req->primary_route,
-                'secondary_route' => $req->secondary_route
+                'secondary_route' => $req->secondary_route,
+                'updated_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
             ];
             $id = [
                 'id' => $req->id
@@ -193,6 +197,7 @@ class RouteApiController extends Controller
             return response()->json($response);
         }
     }
+
     public function Detail(Request $request)
     {
         try {
