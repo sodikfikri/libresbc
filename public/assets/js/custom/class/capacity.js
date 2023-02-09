@@ -33,12 +33,38 @@ jQuery(function($) {
                     { data: 'action' },
                 ]
             })
+        },
+        Detail: function(name) {
+            $.ajax({
+                url: '/api/class/capacity/detail?name='+name,
+                method: 'GET',
+                success: function(resp) {
+                    if (resp.meta.code == '200') {
+                        let data = resp.data
+                        $('#upt-name').val(data.name)
+                        $('#upt-desc').val(data.desc)
+                        $('#upt-cps').val(data.cps)
+                        $('#upt-cc').val(data.concurentcalls)
+                    } else {
+                        toastMixin.fire({
+                            icon: "error",
+                            title: resp.meta.message,
+                        });
+                    }
+                },
+                error: function(e) {
+                    console.log('error: ', e);
+                }
+            })
         }
     }
 
     Capacity.Event = {
         active: function() {
-
+            $(document).on('click', '#btn-detail', function() {
+                Capacity.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
+            })
         }
     }
 

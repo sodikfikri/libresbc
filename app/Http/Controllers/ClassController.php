@@ -16,6 +16,11 @@ class ClassController extends Controller
         return view('class.manipulation.index');
     }
 
+    public function manipulation_detail() 
+    {
+        return view('class.manipulation.detail');
+    }
+
     public function media() 
     {
         return view('class.media.index');

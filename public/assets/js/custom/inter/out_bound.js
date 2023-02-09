@@ -40,7 +40,10 @@ jQuery(function($) {
 
     OutBound.Event = {
         active: function() {
-
+            $(document).on('click', '#btn-detail', function() {
+                localStorage.setItem('outbound-name', $(this).data('name'))
+                window.location.href = location.origin + '/inter-conncection/out-bound/detail'
+            })
         }
     }
 

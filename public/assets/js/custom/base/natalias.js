@@ -3,7 +3,8 @@ jQuery(function($) {
     let State = {
         table: {
             list: ''
-        }
+        },
+        action_type: ''
     }
 
     let Natalias = {}
@@ -28,7 +29,12 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    // { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="" id="read-data" data-name="${row.name}" style="cursor: pointer">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'action' },
                 ]
@@ -40,6 +46,7 @@ jQuery(function($) {
                 method: 'GET',
                 success: function(resp) {
                     if (resp.meta.code == '200') {
+                        $('#form-upt-addresses').empty()
                         $('#upt-name').val(resp.data.name)
                         $('#upt-desc').val(resp.data.desc)
 
@@ -60,10 +67,10 @@ jQuery(function($) {
                                                     <input type="text" class="form-control" id="upt-address-advertise" value="${val.advertise}">
                                                 </div>
                                                 <div class="col-2">
-                                                    <button class="btn btn-danger remove-row-update">
+                                                    <button class="btn btn-danger remove-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <button class="btn btn-primary add-row-update">
+                                                    <button class="btn btn-primary add-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -84,7 +91,7 @@ jQuery(function($) {
                                                     <input type="text" class="form-control" id="upt-address-advertisen">
                                                 </div>
                                                 <div class="col-2">
-                                                    <button class="btn btn-danger remove-row-update">
+                                                    <button class="btn btn-danger remove-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
                                                 </div>
@@ -94,8 +101,6 @@ jQuery(function($) {
                                 }
                             })
                         }
-
-                        $('#modalDetail').modal('show')
                     } else {
                         toastMixin.fire({
                             icon: "warning",
@@ -113,7 +118,19 @@ jQuery(function($) {
     Natalias.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
+                $('#update').removeClass('display-0')
+
+                State.action_type = 'update'
                 Natalias.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+
+                State.action_type = 'detail'
+                Natalias.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
             })
             
             this.addRowUpdate()

@@ -54,18 +54,28 @@ Route::get("/base/gateway/detail", [BaseApiController::class, "Gateway_detail"])
 
 // ============================ Sipprofile Route ============================ // 
 Route::get("/sipprofile/list", [SipprofileApiController::class, "List"]);
+Route::get("/sipprofile/detail", [SipprofileApiController::class, "Detail"]);
 
 // ============================ Class Route ============================ // 
 Route::get("/class/media/list", [ClassApiController::class, "Media_list"]);
 Route::get("/class/media/detail", [ClassApiController::class, "Media_detail"]);
 
 Route::get("/class/capacity/list", [ClassApiController::class, "Capacity_list"]);
+Route::get("/class/capacity/detail", [ClassApiController::class, "Capacity_detail"]);
+
+
 Route::get("/class/translation/list", [ClassApiController::class, "Translation_list"]);
+Route::get("/class/translation/detail", [ClassApiController::class, "Translation_detail"]);
+
 Route::get("/class/manipulation/list", [ClassApiController::class, "Manipulation_list"]);
+Route::get("/class/manipulation/detail", [ClassApiController::class, "Manipulation_detail"]);
 
 // ============================ Class Route ============================ // 
 Route::get("/inter/inbound/list", [InterConnectionApiController::class, "InBound_list"]);
+Route::get("/inter/inbound/detail", [InterConnectionApiController::class, "InBound_detail"]);
+
 Route::get("/inter/outbound/list", [InterConnectionApiController::class, "OutBound_list"]);
+Route::get("/inter/outbound/detail", [InterConnectionApiController::class, "OutBound_detail"]);
 
 // ============================ Routing Route ============================ // 
 Route::get("/routing/table/list", [RoutingApiController::class, "Table_list"]);

@@ -28,7 +28,12 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    // { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="" id="read-data" data-name="${row.name}" style="cursor: pointer">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'action' },
                 ]
@@ -38,7 +43,17 @@ jQuery(function($) {
 
     Sipprofile.Event = {
         active: function() {
+            $(document).on('click', '#btn-detail', function() {
+                localStorage.setItem('sipprofile-name', $(this).data('name'))
+                localStorage.setItem('action-type', 'update')
+                window.location.href = location.origin + '/sipprofile/detail'
+            })
 
+            $(document).on('click', '#read-data', function() {
+                localStorage.setItem('sipprofile-name', $(this).data('name'))
+                localStorage.setItem('action-type', 'detail')
+                window.location.href = location.origin + '/sipprofile/detail'
+            })
         }
     }
 

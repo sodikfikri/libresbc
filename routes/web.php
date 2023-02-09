@@ -36,15 +36,19 @@ Route::group(['middleware' => ['token.verify']], function() {
     Route::get('/base/acl', [BaseController::class, 'acl_list'])->name('base-acl-list');
     
     Route::get('/sipprofile', [SipprofileController::class, 'index'])->name('sipprofile-list');
+    Route::get('/sipprofile/detail', [SipprofileController::class, 'detail'])->name('sipprofile-detail');
     
     Route::get('/class/capacity', [ClassController::class, 'capacity'])->name('capacity-list');
     Route::get('/class/manipulation', [ClassController::class, 'manipulation'])->name('manipulation-list');
+    Route::get('/class/manipulation/detail', [ClassController::class, 'manipulation_detail'])->name('manipulation-detail');
     Route::get('/class/media', [ClassController::class, 'media'])->name('media-list');
     Route::get('/class/preanswer', [ClassController::class, 'preanswer'])->name('preanswer-list');
     Route::get('/class/translation', [ClassController::class, 'translation'])->name('translation-list');
     
     Route::get('/inter-conncection/in-bound', [InterConnectionController::class, 'inbound'])->name('inboud-list');
+    Route::get('/inter-conncection/in-bound/detail', [InterConnectionController::class, 'inbound_detail'])->name('inboud-detail');
     Route::get('/inter-conncection/out-bound', [InterConnectionController::class, 'outbound'])->name('outboud-list');
+    Route::get('/inter-conncection/out-bound/detail', [InterConnectionController::class, 'outbound_detail'])->name('outboud-detail');
     
     Route::get('/routing/table', [RoutingController::class, 'table_list'])->name('table-list');
     Route::get('/routing/record', [RoutingController::class, 'record'])->name('record-list');

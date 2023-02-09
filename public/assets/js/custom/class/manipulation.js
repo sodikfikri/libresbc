@@ -38,7 +38,10 @@ jQuery(function($) {
 
     Manipulation.Event = {
         active: function() {
-            
+            $(document).on('click', '#btn-detail', function() {
+                localStorage.setItem('manipulation-name', $(this).data('name'))
+                window.location.href = location.origin + '/class/manipulation/detail'
+            })
         }
     }
 

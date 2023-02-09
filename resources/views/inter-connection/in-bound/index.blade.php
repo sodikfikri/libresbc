@@ -14,7 +14,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table" width="100%" cellspacing="0">
+                    <table class="table" id="table" width="100%" cellspacing="0">
                         <thead>
                             <th style="width: 10px">No</th>
                             <th>Name</th>

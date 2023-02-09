@@ -13,8 +13,9 @@
 
     <style>
         .display-0 {
-            display: none;
+            display: none!important;
         }
+        
         .switch.ios, .switch-on.ios, .switch-off.ios { border-radius: 20rem; }
         .switch.ios .switch-handle { border-radius: 20rem; }
     </style>

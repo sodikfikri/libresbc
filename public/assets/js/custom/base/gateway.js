@@ -28,7 +28,12 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    // { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span id="read-data" data-name="${row.name}" style="cursor: pointer">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'ip' },
                     { data: 'port' },
@@ -103,8 +108,17 @@ jQuery(function($) {
             })
 
             $(document).on('click', '#btn-detail', function() {
-                $('#modalDetail').modal('show')
+                $('#update').removeClass('display-0')
+
                 Gateway.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+
+                Gateway.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
             })
         }
     }

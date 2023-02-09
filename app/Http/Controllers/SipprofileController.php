@@ -10,4 +10,9 @@ class SipprofileController extends Controller
     {
         return view('sipprofile.index');
     }
+
+    public function detail() 
+    {
+        return view('sipprofile.detail');
+    }
 }

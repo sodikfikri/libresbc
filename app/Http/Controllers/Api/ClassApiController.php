@@ -106,6 +106,46 @@ class ClassApiController extends Controller
             return response()->json($response);
         }
     }
+    public function Capacity_detail(Request $request)
+    {
+        try {
+            $params = [
+                'url' => '/libreapi/class/capacity/' . $request->name
+            ];
+
+            $helper = new Helper();
+            $data = $helper->GetApi($params);
+
+            if (!$data) {
+                $response = [
+                    'meta' => [
+                        'code' => '400',
+                        'message' => 'Failed to get data'
+                    ],
+                    'data' => []
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full'
+                ],
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
 
     public function Translation_list(Request $request)
     {
@@ -135,6 +175,46 @@ class ClassApiController extends Controller
             return response()->json($response);
         }
     }
+    public function Translation_detail(Request $request)
+    {
+        try {
+            $params = [
+                'url' => '/libreapi/class/translation/' . $request->name
+            ];
+
+            $helper = new Helper();
+            $data = $helper->GetApi($params);
+
+            if (!$data) {
+                $response = [
+                    'meta' => [
+                        'code' => '400',
+                        'message' => 'Failed to get data'
+                    ],
+                    'data' => []
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full'
+                ],
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
 
     public function Manipulation_list(Request $request)
     {
@@ -154,6 +234,46 @@ class ClassApiController extends Controller
                 return $data;
             })
             ->make(true);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+    public function Manipulation_detail(Request $request)
+    {
+        try {
+            $params = [
+                'url' => '/libreapi/class/manipulation/' . $request->name
+            ];
+
+            $helper = new Helper();
+            $data = $helper->GetApi($params);
+
+            if (!$data) {
+                $response = [
+                    'meta' => [
+                        'code' => '400',
+                        'message' => 'Failed to get data'
+                    ],
+                    'data' => []
+                ];
+                return response()->json($response, 200);
+            }
+
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Get data has success full'
+                ],
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
                 'meta' => [

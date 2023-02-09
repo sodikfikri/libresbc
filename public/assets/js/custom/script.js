@@ -134,6 +134,9 @@ $(document).ready(function ($) {
                         $('#sub-routing').trigger('click')
                     }
                     break;
+                case 'route':
+                    $('#menu-configuration').trigger('click')
+                    break;
                 default:
                     break;
             }

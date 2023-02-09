@@ -1,4 +1,4 @@
-@section('title', 'Natalias')
+@section('title', 'Netalias')
 
 @extends('components.main')
 
@@ -8,13 +8,13 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Natalias</h1>
+            <h1 class="h3 mb-0 text-gray-800">Netalias</h1>
         </div>
 
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table" width="100%" cellspacing="0">
+                    <table class="table" id="table" width="100%" cellspacing="0">
                         <thead>
                             <th style="width: 10px">No</th>
                             <th>Name</th>
@@ -32,7 +32,7 @@
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Response</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
