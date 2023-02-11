@@ -31,7 +31,7 @@ jQuery(function($) {
                     // { data: 'name' },
                     {
                         render: function(data, type, row, meta) {
-                            return `<span class="" id="read-data" data-name="${row.name}" style="cursor: pointer">${row.name}</span>`
+                            return `<span class="action-name" id="read-data" data-name="${row.name}">${row.name}</span>`
                         }
                     },
                     { data: 'desc' },

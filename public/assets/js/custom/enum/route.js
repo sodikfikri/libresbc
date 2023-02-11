@@ -242,7 +242,7 @@ jQuery(function($) {
             $.ajax({
                 url: '/api/enum/route/export_data',
                 data: {
-                    data: params
+                    search: params
                 },
                 method: 'GET',
                 beforeSend: function() {
@@ -250,6 +250,7 @@ jQuery(function($) {
                     $('#btn-icon-export').addClass('fas fa-circle-notch fa-spin')
                 },
                 success: function(resp) {
+                    // return console.log(resp);
                     $('#modalExport').modal('hide') 
                     if (resp.meta.code == '200') {
                         const items = resp.data
@@ -564,26 +565,29 @@ jQuery(function($) {
         },
         export: function() {
             $('#export-data').on('click', function() {
-                $('#modalExport').modal('show')
+                let data = $('#dataTable_filter').find('input').val()
+                Route.API.Export(data)
+                // return console.log(data);
+                // $('#modalExport').modal('show')
             })
 
             $('#btn-export').on('click', function() {
-                let data = $('.type-export').map(function() {
-                    if ($(this).is(":checked")) {
-                        idx = $(this).val()
-                        return idx
-                    }
-                }).get();
+                // let data = $('.type-export').map(function() {
+                //     if ($(this).is(":checked")) {
+                //         idx = $(this).val()
+                //         return idx
+                //     }
+                // }).get();
 
-                if (data.length == 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops...',
-                        text: 'No data selected!',
-                    })
-                } else {
-                    Route.API.Export(data)      
-                }
+                // if (data.length == 0) {
+                //     Swal.fire({
+                //         icon: 'warning',
+                //         title: 'Oops...',
+                //         text: 'No data selected!',
+                //     })
+                // } else {
+                //     Route.API.Export(data)      
+                // }
 
             })
         }

@@ -3,7 +3,8 @@ jQuery(function($) {
     let State = {
         table: {
             list: ''
-        }
+        },
+        action_type: ''
     }
 
     let Media = {}
@@ -28,7 +29,12 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    // { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="action-name" id="read-data" data-name="${row.name}">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'action' },
                 ]
@@ -82,10 +88,10 @@ jQuery(function($) {
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <button class="btn btn-danger remove-row-update">
+                                                        <button class="btn btn-danger remove-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                             <i class="fas fa-minus"></i>
                                                         </button>
-                                                        <button class="btn btn-primary add-row-update">
+                                                        <button class="btn btn-primary add-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
@@ -104,7 +110,7 @@ jQuery(function($) {
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <button class="btn btn-danger remove-row-update">
+                                                        <button class="btn btn-danger remove-row-update ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                     </div>
@@ -130,6 +136,14 @@ jQuery(function($) {
     Media.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
+                $('#update').removeClass('display-0')
+                State.action_type = 'update'
+                Media.API.Detail($(this).data('name'))
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+                State.action_type = 'detail'
                 Media.API.Detail($(this).data('name'))
             })
 

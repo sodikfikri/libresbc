@@ -136,16 +136,25 @@ class RouteModel extends Model
 
     public function export($data)
     {
-        $data = DB::select('SELECT destination_number, 
-                            CASE
-                                WHEN primary_route = "141" then "TELIN_IP_HK"
-                                WHEN primary_route = "112" then "TELIN_GP_HK"
-                                WHEN primary_route = "110" then "TELIN_GP_SG"
-                                ELSE primary_route
-                            END primary_route,
-                            secondary_route
-                            FROM testroutev2 WHERE primary_route IN ('.$data.')');
+        $params = '';
+
+        if ($data != null) {
+            $params = 'WHERE destination_number LIKE "%'.$data.'%" OR primary_route LIKE "%'.$data.'%" OR secondary_route LIKE "%'.$data.'%"';
+        }
+
+        $data = DB::select('SELECT destination_number, primary_route, secondary_route FROM testroutev2 ' . $params);
+
         return $data;
+        // $data = DB::select('SELECT destination_number, 
+        //                     CASE
+        //                         WHEN primary_route = "141" then "TELIN_IP_HK"
+        //                         WHEN primary_route = "112" then "TELIN_GP_HK"
+        //                         WHEN primary_route = "110" then "TELIN_GP_SG"
+        //                         ELSE primary_route
+        //                     END primary_route,
+        //                     secondary_route
+        //                     FROM testroutev2 WHERE primary_route IN ('.$data.')');
+        // return $data;
     }
 
     public function jobs_list()

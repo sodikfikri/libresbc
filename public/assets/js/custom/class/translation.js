@@ -28,7 +28,11 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="action-name" id="read-data" data-name="${row.name}">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'action' },
                 ]
@@ -67,8 +71,17 @@ jQuery(function($) {
     Translation.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
-                $('#modalDetail').modal('show')
+                $('#update').removeClass('display-0')
+
                 Translation.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
+            })
+            
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+
+                Translation.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
             })
         }
     }

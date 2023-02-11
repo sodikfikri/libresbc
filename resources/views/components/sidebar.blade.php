@@ -71,8 +71,8 @@
                         href="{{ route('outboud-list') }}" style="display: none; padding-left: 30px">Out Bound</a>
 
                 <a class="collapse-item {{ request()->segment(1) == 'routing' ? 'active' : '' }}" href="javascript:void(0)" id="sub-routing" data-type="1">Routing</a>
-                    <a class="collapse-item child-sub-routing {{ request()->segment(2) == 'table' ? 'active' : '' }}" href="#" style="display: none; padding-left: 30px">Table</a>
-                    <a class="collapse-item child-sub-routing {{ request()->segment(2) == 'record' ? 'active' : '' }}" href="#" style="display: none; padding-left: 30px">Record</a>
+                    <a class="collapse-item child-sub-routing {{ request()->segment(2) == 'table' ? 'active' : '' }}" href="{{ route('table-list') }}" style="display: none; padding-left: 30px">Table</a>
+                    <a class="collapse-item child-sub-routing {{ request()->segment(2) == 'record' ? 'active' : '' }}" href="{{ route('record-list') }}" style="display: none; padding-left: 30px">Record</a>
 
                 <a class="collapse-item" href="javascript:void(0)" id="sub-access" data-type="1">Access</a>
                     <a class="collapse-item child-sub-access" href="#" style="display: none; padding-left: 30px">Domain Policy</a>

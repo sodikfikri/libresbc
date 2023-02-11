@@ -29,7 +29,11 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="action-name" id="read-data" data-name="${row.name}">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'sipprofile' },
                     { data: 'action' },
@@ -42,6 +46,13 @@ jQuery(function($) {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
                 localStorage.setItem('outbound-name', $(this).data('name'))
+                localStorage.setItem('action-type', 'update')
+                window.location.href = location.origin + '/inter-conncection/out-bound/detail'
+            })
+
+            $(document).on('click', '#read-data', function() {
+                localStorage.setItem('outbound-name', $(this).data('name'))
+                localStorage.setItem('action-type', 'detail')
                 window.location.href = location.origin + '/inter-conncection/out-bound/detail'
             })
         }

@@ -30,6 +30,133 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control" id="upt-name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Description</label>
+                                <input type="text" class="form-control" id="upt-desc">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Action</label>
+                                <input type="text" class="form-control" id="upt-action">
+                            </div>
+                        </div>
+                        <div class="col-md-12 display-0" id="routes-data">
+                            <div class="form-group">
+                                <label for="" class="">Routes</label> <br>
+                                <div class="row">
+                                    <div class="col-md-2" style="padding-left: 20px">
+                                        <span style="font-size: 14px;">Primary</span>
+                                    </div>
+                                    <div class="col-md-10 mb-2">
+                                        <input type="text" class="form-control" id="upt-route-primary" style="font-size: 13px; width: 50%;">
+                                    </div>
+                                    <div class="col-md-2" style="padding-left: 20px">
+                                        <span style="font-size: 14px;">Secondary</span>
+                                    </div>
+                                    <div class="col-md-10 mb-2">
+                                        <input type="text" class="form-control" id="upt-route-secondary" style="font-size: 13px; width: 50%;">
+                                    </div>
+                                    <div class="col-md-2" style="padding-left: 20px">
+                                        <span style="font-size: 14px;">Load</span>
+                                    </div>
+                                    <div class="col-md-10 mb-2">
+                                        <input type="text" class="form-control" id="upt-route-load" style="font-size: 13px; width: 50%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 display-0" id="record-data">
+                            <label for="">Records</label>
+                            <button class="btn btn-primary btn-sm" id="">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="row record_wrapper mt-2">
+                                {{-- <div class="col-md-4 record_child">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group" style="margin-bottom: 0">
+                                                <label for="" style="font-size: 13px;">Match</label>
+                                                <input type="text" class="form-control" id="upt-action" style="font-size: 13px;">
+                                            </div>
+                                            <div class="form-group" style="margin-bottom: 0">
+                                                <label for="" style="font-size: 13px;">Value</label>
+                                                <input type="text" class="form-control" id="upt-action" style="font-size: 13px;">
+                                            </div>
+                                            <div class="form-group" style="margin-bottom: 0">
+                                                <label for="" style="font-size: 13px;">Action</label>
+                                                <input type="text" class="form-control" id="upt-action" style="font-size: 13px;">
+                                            </div>
+                                            <div class="form-group" style="margin-bottom: 0">
+                                                <label for="" class="" style="font-size: 13px;">Routes</label> <br>
+                                                <div class="row">
+                                                    <div class="col-md-4" style="padding-left: 20px">
+                                                        <span style="font-size: 13px;">Primary</span>
+                                                    </div>
+                                                    <div class="col-md-8 mb-2">
+                                                        <input type="text" class="form-control" id="upt-route-primary" style="font-size: 13px;">
+                                                    </div>
+                                                    <div class="col-md-4" style="padding-left: 20px">
+                                                        <span style="font-size: 13px;">Secondary</span>
+                                                    </div>
+                                                    <div class="col-md-8 mb-2">
+                                                        <input type="text" class="form-control" id="upt-route-secondary" style="font-size: 13px;">
+                                                    </div>
+                                                    <div class="col-md-4" style="padding-left: 20px">
+                                                        <span style="font-size: 13px;">Load</span>
+                                                    </div>
+                                                    <div class="col-md-8 mb-2">
+                                                        <input type="text" class="form-control" id="upt-route-load" style="font-size: 13px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+                        {{-- <div class="col-md-6"></div> --}}
+                        <div class="col-md-6 mt-3">
+                            <div class="form-group">
+                                <label for="">Variables</label>
+                                <button class="btn btn-primary btn-sm" id="">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <div class="" id="variable_wrapper">
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="update">Update</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')

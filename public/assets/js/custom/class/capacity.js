@@ -28,7 +28,12 @@ jQuery(function($) {
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },
-                    { data: 'name' },
+                    // { data: 'name' },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="action-name" id="read-data" data-name="${row.name}">${row.name}</span>`
+                        }
+                    },
                     { data: 'desc' },
                     { data: 'action' },
                 ]
@@ -62,6 +67,13 @@ jQuery(function($) {
     Capacity.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
+                $('#update').removeClass('display-0')
+                Capacity.API.Detail($(this).data('name'))
+                $('#modalDetail').modal('show')
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
                 Capacity.API.Detail($(this).data('name'))
                 $('#modalDetail').modal('show')
             })

@@ -1,7 +1,20 @@
 jQuery(function($) {
 
     let State = {
-        name: localStorage.getItem('outbound-name')
+        name: localStorage.getItem('outbound-name'),
+        action_type: localStorage.getItem('action-type')
+    }
+
+    if (State.action_type == 'detail') {
+        $('#btn-add-rtp').addClass('display-0')
+        $('#btn-add-privacy').addClass('display-0')
+        $('#btn-add-nodes').addClass('display-0')
+        $('#btn-add-card-gatewas').addClass('display-0')
+    } else {
+        $('#btn-add-rtp').removeClass('display-0')
+        $('#btn-add-privacy').removeClass('display-0')
+        $('#btn-add-nodes').removeClass('display-0')
+        $('#btn-add-card-gatewas').addClass('display-0')
     }
 
     let Detail = {}
@@ -51,7 +64,7 @@ jQuery(function($) {
                                                 <input type="text" class="form-control" name="rtp-address" id="" value="${val}">
                                             </div>
                                             <div class="col-4">
-                                                <button class="btn btn-danger remove-row-rtp">
+                                                <button class="btn btn-danger remove-row-rtp ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
                                             </div>
@@ -70,7 +83,7 @@ jQuery(function($) {
                                                 <input type="text" class="form-control" name="privacy" id="" value="${val}">
                                             </div>
                                             <div class="col-4">
-                                                <button class="btn btn-danger remove-row-privacy">
+                                                <button class="btn btn-danger remove-row-privacy ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
                                             </div>
@@ -89,7 +102,7 @@ jQuery(function($) {
                                                 <input type="text" class="form-control" name="nodes" id="" value="${val}">
                                             </div>
                                             <div class="col-4">
-                                                <button class="btn btn-danger remove-row-nodes">
+                                                <button class="btn btn-danger remove-row-nodes ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
                                             </div>
@@ -106,7 +119,7 @@ jQuery(function($) {
                                         <div class="card mt-3">
                                             <div class="card-body">
                                                 <div style="float: right; padding-bottom: 7px">
-                                                    <button class="btn btn-danger btn-sm remove-gateway">
+                                                    <button class="btn btn-danger btn-sm remove-gateway ${State.action_type == 'detail' ? 'display-0' : ''}">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
                                                 </div>

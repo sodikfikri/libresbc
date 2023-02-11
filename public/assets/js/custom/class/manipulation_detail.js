@@ -1,7 +1,14 @@
 jQuery(function($) {
     
     let State = {
-        name: localStorage.getItem('manipulation-name')
+        name: localStorage.getItem('manipulation-name'),
+        action_type: localStorage.getItem('action-type')
+    }
+
+    if (State.action_type == 'detail') {
+        $('#btn-add-card-action').addClass('display-0')
+    } else {
+        $('#btn-add-card-action').removeClass('display-0')
     }
 
     let Detail = {}
@@ -36,7 +43,7 @@ jQuery(function($) {
                                                     <input type="text" class="form-control" id="" style="font-size: 13px" value="${_val}">
                                                 </div>
                                                 <div class="col-2">
-                                                    <button class="btn btn-danger btn-sm">
+                                                    <button class="btn btn-danger btn-sm ${State.action_type == 'detail' ? 'display-0' : ''} remove-value">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
                                                 </div>
@@ -47,7 +54,7 @@ jQuery(function($) {
                                     `<div class="col-4 actions-card mt-2">
                                         <div class="card">
                                             <div class="card-body">
-                                                <button class="btn btn-danger btn-sm" id="" style="float: right; margin-bottom: 7px">
+                                                <button class="btn btn-danger btn-sm ${State.action_type == 'detail' ? 'display-0' : ''} remove-action-card" id="" style="float: right; margin-bottom: 7px">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                                 <div class="form-group">
@@ -87,6 +94,14 @@ jQuery(function($) {
 
     Detail.Event = {
         active: function() {
+            $(document).on('click', '.remove-value', function() {
+                $(this).closest('#value_wrapper').remove()
+            })
+
+            $(document).on('click', '.remove-action-card', function() {
+                $(this).closest('.actions-card').remove()
+            })
+
             this.addAction()
         },
         addAction: function() {

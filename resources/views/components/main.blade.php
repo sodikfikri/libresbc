@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>@yield('title')</title>
 
@@ -15,7 +16,12 @@
         .display-0 {
             display: none!important;
         }
-        
+        .action-name {
+            cursor: pointer;
+        }
+        .action-name:hover {
+            color: #4e73df;
+        }
         .switch.ios, .switch-on.ios, .switch-off.ios { border-radius: 20rem; }
         .switch.ios .switch-handle { border-radius: 20rem; }
     </style>

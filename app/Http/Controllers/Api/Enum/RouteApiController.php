@@ -358,23 +358,9 @@ class RouteApiController extends Controller
     public function Export(Request $request)
     {
         try {
-            // dd($request->data);
-            $parmas = [];
-            foreach($request->data as $key => $val) {
-                if ($request->data[$key] == 'TELIN_GP_SG') {
-                    $params[$key] = '110';
-                } else if ($request->data[$key] == 'TELIN_GP_HK') {
-                    $params[$key] = '112';
-                } else if ($request->data[$key] == 'TELIN_IP_HK') {
-                    $params[$key] = '142';
-                } else {
-                    $params[$key] = '"'.$val.'"';
-                }
-            }
-            
             $model = new RouteModel();
-            $data = $model->export(implode(',', $params));
-
+            $data = $model->export($request->search);
+            
             if (count($data) == 0) {
                 $response = [
                     'meta' => [

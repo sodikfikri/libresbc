@@ -79,3 +79,4 @@ Route::get("/inter/outbound/detail", [InterConnectionApiController::class, "OutB
 
 // ============================ Routing Route ============================ // 
 Route::get("/routing/table/list", [RoutingApiController::class, "Table_list"]);
+Route::get("/routing/table/detail", [RoutingApiController::class, "Table_detail"]);
