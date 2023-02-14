@@ -42,16 +42,17 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4"><strong>Dashboard SBC & Enum</strong></h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" action="{{ route('login') }}" method="POST">
+                                        @csrf
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                id="username" placeholder="Username">
+                                                id="username" name="username" placeholder="Username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password">
+                                                id="password" name="password" placeholder="Password">
                                         </div>
-                                        <button id="login" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" id="login" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
@@ -85,7 +86,7 @@
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
+    {{-- <script>
         const toastMixin = Swal.mixin({
             toast: true,
             icon: "success",
@@ -128,7 +129,7 @@
                 }
             })
         }
-    </script>
+    </script> --}}
 
 </body>
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\SipprofileApiController;
 use App\Http\Controllers\Api\ClassApiController;
 use App\Http\Controllers\Api\InterConnectionApiController;
 use App\Http\Controllers\Api\RoutingApiController;
+use App\Http\Controllers\Api\UserManagementApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post("/login", [AuthApiController::class, "Login"]);
+// Route::post("/login", [AuthApiController::class, "Login"])->name('login');
 
 // ============================ Enum Route ============================ //
 Route::get("/enum/route/failed_list", [RouteApiController::class, "FailedList"]);
@@ -80,3 +81,6 @@ Route::get("/inter/outbound/detail", [InterConnectionApiController::class, "OutB
 // ============================ Routing Route ============================ // 
 Route::get("/routing/table/list", [RoutingApiController::class, "Table_list"]);
 Route::get("/routing/table/detail", [RoutingApiController::class, "Table_detail"]);
+
+// ============================ Routing Route ============================ // 
+Route::get("/user_manage/user_list", [UserManagementApiController::class, "user_list"]);

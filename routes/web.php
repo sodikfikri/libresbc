@@ -8,6 +8,9 @@ use App\Http\Controllers\SipprofileController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\InterConnectionController;
 use App\Http\Controllers\RoutingController;
+use App\Http\Controllers\UserManagementController;
+
+use App\Http\Controllers\Api\AuthApiController;
 
 use App\Http\Controllers\Enum\RouteController;
 
@@ -55,5 +58,11 @@ Route::group(['middleware' => ['token.verify']], function() {
     
     // ==================================== Enum Route ====================================
     Route::get('/route', [RouteController::class, 'route'])->name('enum-route');
+    
+    // ==================================== user management Route ====================================
+    Route::get('/user-management/user-list', [UserManagementController::class, 'index'])->name('user-manage-user-list');
+
 });
+
+Route::post('/login', [AuthApiController::class, 'Login'])->name('login');
 

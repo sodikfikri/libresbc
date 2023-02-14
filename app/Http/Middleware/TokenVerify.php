@@ -14,9 +14,9 @@ class TokenVerify
     public function handle($request, Closure $next) 
     {
         try {
-            $request->token = $_COOKIE['token'];
+            $request->token = session()->get('jwt-token');
             // dd($request->token);
-            $request->jwt = JWT::decode($_COOKIE['token'], new Key(env('JWT_SECRET'), 'HS256'));
+            $request->jwt = JWT::decode(session()->get('jwt-token'), new Key(env('JWT_SECRET'), 'HS256'));
 
         } catch (\Exception $e) {
             return redirect('/');

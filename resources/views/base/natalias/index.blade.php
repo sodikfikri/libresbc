@@ -1,3 +1,6 @@
+@php
+    dd(json_decode(session()->get('access-menu')));
+@endphp
 @section('title', 'Netalias')
 
 @extends('components.main')
