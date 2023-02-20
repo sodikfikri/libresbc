@@ -32,6 +32,10 @@ $(document).ready(function ($) {
         active: function() {
             this.subSelect()
             this.menuActivate()
+
+            $(document).on('click', '#btn-logout', function() {
+                
+            })
         },
         subSelect: function() {
             // enevet sub select side bar
@@ -98,7 +102,7 @@ $(document).ready(function ($) {
         },
         menuActivate: function() {
             State.pathName = window.location.pathname.split('/')
-
+            // console.log(State.pathName);
             switch (State.pathName[1]) {
                 case 'cluster':
                     $('#menu-configuration').trigger('click')
@@ -136,6 +140,9 @@ $(document).ready(function ($) {
                     break;
                 case 'route':
                     $('#menu-configuration').trigger('click')
+                    break;
+                case 'user-management':
+                    $('#menu-user-management').trigger('click')
                     break;
                 default:
                     break;

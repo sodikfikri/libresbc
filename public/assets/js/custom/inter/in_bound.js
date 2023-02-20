@@ -1,5 +1,5 @@
 jQuery(function($) {
-
+    
     let State = {
         table: {
             list: ''
@@ -25,6 +25,9 @@ jQuery(function($) {
                 ajax: {
                     url: '/api/inter/inbound/list',
                     method: 'GET',
+                    data: {
+                        access: permit
+                    }
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },

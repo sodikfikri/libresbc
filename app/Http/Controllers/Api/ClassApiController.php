@@ -16,14 +16,24 @@ class ClassApiController extends Controller
                 'url' => '/libreapi/class/media',
             ];
 
+            $permit = [
+                'is_update' => $request->access['is_update'],
+                'is_delete' => $request->access['is_delete']
+            ];
+
             $helper = new Helper();
             $data = $helper->GetApi($params);
 
             return datatables()->of($data)
             // ->addIndexColumn()
-            ->addColumn('action', function($row){
-                $data = '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
-                $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+            ->addColumn('action', function($row) use ($permit){
+                $data = '';
+                if ($permit['is_update'] == '1') {
+                    $data .= '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
+                }
+                if ($permit['is_delete'] == 1) {
+                    $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+                }
                 return $data;
             })
             ->make(true);
@@ -88,11 +98,21 @@ class ClassApiController extends Controller
             $helper = new Helper();
             $data = $helper->GetApi($params);
 
+            $permit = [
+                'is_update' => $request->access['is_update'],
+                'is_delete' => $request->access['is_delete']
+            ];
+
             return datatables()->of($data)
-            // ->addIndexColumn()
-            ->addColumn('action', function($row){
-                $data = '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
-                $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+            ->addIndexColumn()
+            ->addColumn('action', function($row) use ($permit){
+                $data = '';
+                if ($permit['is_update'] == '1') {
+                    $data .= '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
+                }
+                if ($permit['is_delete'] == '1') {
+                    $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+                }
                 return $data;
             })
             ->make(true);
@@ -157,11 +177,21 @@ class ClassApiController extends Controller
             $helper = new Helper();
             $data = $helper->GetApi($params);
 
+            $permit = [
+                'is_update' => $request->access['is_update'],
+                'is_delete' => $request->access['is_delete']
+            ];
+
             return datatables()->of($data)
-            // ->addIndexColumn()
-            ->addColumn('action', function($row){
-                $data = '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
-                $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+            ->addIndexColumn()
+            ->addColumn('action', function($row) use ($permit) {
+                $data = '';
+                if ($permit['is_update'] == '1') {
+                    $data .= '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
+                }
+                if ($permit['is_delete'] == '1') {
+                    $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+                }
                 return $data;
             })
             ->make(true);
@@ -223,14 +253,24 @@ class ClassApiController extends Controller
                 'url' => '/libreapi/class/manipulation',
             ];
 
+            $permit = [
+                'is_update' => $request->access['is_update'],
+                'is_delete' => $request->access['is_delete']
+            ];
+
             $helper = new Helper();
             $data = $helper->GetApi($params);
 
             return datatables()->of($data)
             // ->addIndexColumn()
-            ->addColumn('action', function($row){
-                $data = '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
-                $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+            ->addColumn('action', function($row) use ($permit) {
+                $data = '';
+                if ($permit['is_update'] == '1') {
+                    $data .= '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="'.$row->name.'"><i class="fas fa-edit"></i></button>';
+                }
+                if ($permit['is_delete'] == '1') {
+                    $data .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$row->name.'"><i class="fas fa-trash"></i></button>';
+                }
                 return $data;
             })
             ->make(true);

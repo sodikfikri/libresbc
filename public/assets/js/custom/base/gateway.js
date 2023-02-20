@@ -25,6 +25,9 @@ jQuery(function($) {
                 ajax: {
                     url: '/api/base/gateway/list',
                     method: 'GET',
+                    data: {
+                        access: permit
+                    }
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },

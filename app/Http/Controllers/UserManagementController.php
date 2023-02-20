@@ -10,4 +10,9 @@ class UserManagementController extends Controller
     {
         return view('user-management.user.index');
     }
+
+    public function role()
+    {
+        return view('user-management.role.index');
+    }
 }

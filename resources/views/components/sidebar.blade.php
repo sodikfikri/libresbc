@@ -13,15 +13,17 @@
         }
         return false;
     }
+
+    // dd(get_data('user_management', $access, 1)->is_active == 1);
 @endphp
 
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
+        {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
-        </div>
+        </div> --}}
         <div class="sidebar-brand-text mx-3">SBC & ENUM</div>
         {{-- <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div> --}}
     </a>
@@ -154,7 +156,7 @@
                             @endif
                     @endif
 
-                    @if (json_decode(session()->get('access-menu'))[2]->sub_menu[7]->is_active == 1)
+                    @if (get_data('configuration', $access, 1)->sub_menu[7]->is_active == 1)
                         <h6 class="collapse-header">Enum Config:</h6>
                         <a class="collapse-item {{ request()->segment(1) == "route" ? "active" : "" }}" href="{{ route('enum-route') }}" id="">Route List</a>
                     @endif
@@ -164,8 +166,8 @@
     @endif
 
     @if (get_data('user_management', $access, 1)->is_active == 1)
-        <li class="nav-item {{ json_decode(session()->get('access-menu'))[3]->is_active == 0 ? 'display-0' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sub-usr-manage"
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="menu-user-management" data-toggle="collapse" data-target="#sub-usr-manage"
                 aria-expanded="true" aria-controls="sub-usr-manage">
                 <i class="fas fa-fw fa-users"></i>
                 <span>User Management</span>
@@ -173,11 +175,11 @@
             <div id="sub-usr-manage" class="collapse" aria-labelledby="headingUtilities"
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    @if (json_decode(session()->get('access-menu'))[3]->sub_menu[0]->is_active == 1)
-                        <a class="collapse-item" href="{{ route('user-manage-user-list') }}">User</a>
+                    @if (get_data('user_management', $access, 1)->sub_menu[0]->is_active == 1)
+                        <a class="collapse-item {{ request()->segment(2) == "user-list" ? "active" : "" }}" href="{{ route('user-manage-user-list') }}">Users</a>
                     @endif
-                    @if (json_decode(session()->get('access-menu'))[3]->sub_menu[1]->is_active == 1)
-                        <a class="collapse-item" href="utilities-border.html">Role</a>
+                    @if (get_data('user_management', $access, 1)->sub_menu[1]->is_active == 1)
+                        <a class="collapse-item {{ request()->segment(2) == "role-list" ? "active" : "" }}" href="{{ route('user-manage-role-list') }}">Roles</a>
                     @endif
                 </div>
             </div>

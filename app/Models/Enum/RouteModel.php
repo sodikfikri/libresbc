@@ -21,7 +21,7 @@ class RouteModel extends Model
 
         return $data;
     }
-    public function routev2_list($option)
+    public function routev2_list($option, $access)
     {
         $Obj = [];
         // search query
@@ -36,13 +36,20 @@ class RouteModel extends Model
                             FROM testroutev2 '.$serchX.' ORDER BY '.$option['order']['column'].' '.$option['order']['dir'].' LIMIT ' . $option['limit']['limit'] . ' OFFSET ' . $option['limit']['offset']);
         
         foreach($data as $key => $val) { 
+            $act = '';
+            if ($access['is_update'] == 1) {
+                $act .= '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-id="'.$val->destination_number.'"><i class="fas fa-edit"></i></button>';
+            }
+            if ($access['is_delete'] == 1) {
+                $act .= '<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$val->destination_number.'"><i class="fas fa-trash"></i></button>';
+            }
             $Obj[$key] = [
                 'id' => $val->destination_number,
                 'check' => '<div class="form-check"><input type="checkbox" class="form-check-input route-check" id="route-check" data-id="'.$val->destination_number.'"><label class="form-check-label" for="exampleCheck1"></label></div>',
                 'destination_number' => $val->destination_number,
                 'primary_route' => $val->primary_name,
                 'secondary_route' => $val->secondary_route,
-                'action' => '<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-id="'.$val->destination_number.'"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="'.$val->destination_number.'"><i class="fas fa-trash"></i></button>'
+                'action' => $act
             ];
         }
 

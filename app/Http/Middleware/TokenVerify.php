@@ -15,9 +15,12 @@ class TokenVerify
     {
         try {
             $request->token = session()->get('jwt-token');
-            // dd($request->token);
-            $request->jwt = JWT::decode(session()->get('jwt-token'), new Key(env('JWT_SECRET'), 'HS256'));
-
+            
+            if (session()->get('jwt-token')) {
+                $request->jwt = JWT::decode(session()->get('jwt-token'), new Key(env('JWT_SECRET'), 'HS256'));
+            } else {
+                return redirect('/');
+            }
         } catch (\Exception $e) {
             return redirect('/');
         }

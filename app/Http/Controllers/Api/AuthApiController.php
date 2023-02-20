@@ -85,6 +85,22 @@ class AuthApiController extends Controller
         }
     }
 
+    public function Logout(Request $request)
+    {
+        try {
+            session()->flush();
+            return redirect('/');
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
     public function access_menu($role) 
     {
         try {

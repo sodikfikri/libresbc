@@ -61,8 +61,11 @@ Route::group(['middleware' => ['token.verify']], function() {
     
     // ==================================== user management Route ====================================
     Route::get('/user-management/user-list', [UserManagementController::class, 'index'])->name('user-manage-user-list');
+    Route::get('/user-management/role-list', [UserManagementController::class, 'role'])->name('user-manage-role-list');
+
 
 });
+Route::post('/logout', [AuthApiController::class, 'Logout'])->name('logout');
 
 Route::post('/login', [AuthApiController::class, 'Login'])->name('login');
 

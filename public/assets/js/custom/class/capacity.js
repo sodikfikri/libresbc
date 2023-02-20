@@ -25,6 +25,9 @@ jQuery(function($) {
                 ajax: {
                     url: '/api/class/capacity/list',
                     method: 'GET',
+                    data: {
+                        access: permit
+                    }
                 },
                 columns: [
                     { render: (data, type, row, meta) => meta.row + 1, },

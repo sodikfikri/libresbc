@@ -1,5 +1,5 @@
 jQuery(function($) {
-    
+    // console.log(permit);
     let State = {
         table: {
             list: '',
@@ -46,6 +46,9 @@ jQuery(function($) {
                 ajax: {
                     url: '/api/enum/route',
                     method: 'GET',
+                    data: {
+                        access: permit
+                    },
                     complete: function() {
                         $('#th-check').css('width', '10px')
                     }

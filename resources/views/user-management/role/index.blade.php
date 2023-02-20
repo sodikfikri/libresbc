@@ -13,11 +13,13 @@
     }
 
     $data = Access('user_management', json_decode(session()->get('access-menu')), 1);
-    $sub_menu = Access('user', $data->sub_menu, 1);
+    $sub_menu = Access('role', $data->sub_menu, 1);
     $permission = $sub_menu->access;
+
+    // dd(session()->all());
 @endphp
 
-@section('title', 'Users')
+@section('title', 'Roles')
 
 @extends('components.main')
 
@@ -27,7 +29,7 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Users</h1>
+            <h1 class="h3 mb-0 text-gray-800">Roles</h1>
         </div>
 
         <div class="card shadow mb-4">
@@ -42,8 +44,7 @@
                         <thead>
                             <th style="width: 10px">No</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>role</th>
+                            <th>Date</th>
                             <th>Action</th>
                         </thead>
                         <tbody></tbody>
@@ -67,25 +68,6 @@
                             <div class="form-group">
                                 <label for="">Name</label>
                                 <input type="text" class="form-control" id="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Role</label>
-                                <select class="form-control" id="role" required>
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" id="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Username</label>
-                                <input type="text" class="form-control" id="username" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" id="password" required>
-                                {{-- <small style="color: #e02d1b">optional fill out the form only if you want to change your password</small> --}}
                             </div>
                         </form>
                     </div>
@@ -112,25 +94,6 @@
                                 <label for="">Name</label>
                                 <input type="text" class="form-control" id="upt-name">
                             </div>
-                            <div class="form-group">
-                                <label for="">Role</label>
-                                <select class="form-control" id="upt-role">
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" id="upt-email">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Username</label>
-                                <input type="text" class="form-control" id="upt-username">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" id="upt-password">
-                                <small style="color: #e02d1b">optional fill out the form only if you want to change your password</small>
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -144,10 +107,9 @@
     </div>
 
 @endsection
-
-@section('scripts')
 <script>
     var permit = @json($permission);
 </script>
-<script src="{{ asset('assets/js/custom/user-management/user_list.js') }}"></script>
+@section('scripts')
+<script src="{{ asset('assets/js/custom/user-management/role_list.js') }}"></script>
 @endsection

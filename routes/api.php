@@ -42,6 +42,7 @@ Route::post("/enum/route/import", [RouteApiController::class, "Import"]);
 Route::get("/enum/route/primary_route", [RouteApiController::class, "PrimaryRoute"]);
 Route::get("/enum/route/export_data", [RouteApiController::class, "Export"]);
 Route::get("/enum/route/master_primary", [RouteApiController::class, "GetMasterPrimary"]);
+Route::post("/enum/destroy/file", [RouteApiController::class, "DestroyUseFile"]);
 
 // ============================ Cluster Route ============================ // 
 Route::get("/cluster/list", [ClusterApiController::class, "List"]);
@@ -84,3 +85,14 @@ Route::get("/routing/table/detail", [RoutingApiController::class, "Table_detail"
 
 // ============================ Routing Route ============================ // 
 Route::get("/user_manage/user_list", [UserManagementApiController::class, "user_list"]);
+Route::get("/user_manage/user_detail", [UserManagementApiController::class, "user_detail"]);
+Route::post("/user_manage/user_add", [UserManagementApiController::class, "user_create"]);
+Route::put("/user_manage/user_update", [UserManagementApiController::class, "user_update"]);
+Route::put("/user_manage/user_delete", [UserManagementApiController::class, "user_delete"]);
+
+Route::get("/user_manage/role_select", [UserManagementApiController::class, "role_select"]);
+Route::get("/user_manage/role_list", [UserManagementApiController::class, "role_list"]);
+Route::get("/user_manage/role_detail", [UserManagementApiController::class, "role_detail"]);
+Route::post("/user_manage/role_add", [UserManagementApiController::class, "role_create"]);
+Route::put("/user_manage/role_update", [UserManagementApiController::class, "role_update"]);
+Route::put("/user_manage/role_delete", [UserManagementApiController::class, "role_delete"]);

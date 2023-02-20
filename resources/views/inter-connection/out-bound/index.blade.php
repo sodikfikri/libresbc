@@ -1,3 +1,23 @@
+@php
+    function Access($menu, $arr, $type) {
+        foreach ($arr as $key => $el) {
+            if ( $menu == $el->name ) {
+                if ($type == 1) { // return data
+                    return $el;
+                } else { // return key
+                    return $key;
+                }
+            }
+        }
+        return false;
+    }
+
+    $data = Access('configuration', json_decode(session()->get('access-menu')), 1);
+    $sub_menu = Access('inter_connection', $data->sub_menu, 1);
+    $child = Access('out_bound', $sub_menu->child, 1);
+    $permission = $child->access;
+    
+@endphp
 @section('title', 'Out Bound')
 
 @extends('components.main')
@@ -12,6 +32,11 @@
 
         <div class="card shadow mb-4">
             <div class="card-body">
+                @if ($permission->is_create == 1)
+                    <div class="mb-2" style="text-align: right">
+                        <button class="btn btn-primary">Add Data</button>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table class="table" id="table" width="100%" cellspacing="0">
                         <thead>
@@ -32,5 +57,8 @@
 @endsection
 
 @section('scripts')
+<script>
+    var permit = @json($permission);
+</script>
 <script src="{{ asset('assets/js/custom/inter/out_bound.js') }}"></script>
 @endsection

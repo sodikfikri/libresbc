@@ -1,5 +1,5 @@
 jQuery(function($) {
-
+    // console.log(permit.is_update);
     let State = {
         table: {
             list: ''
@@ -48,8 +48,13 @@ jQuery(function($) {
                     },
                     {
                         render: (data, type, row, meta) => {
-                            let action = `<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="${row.name}"><i class="fas fa-edit"></i></button>`
+                            let action = ''
+                            if (permit.is_update == 1) {
+                                action += `<button type="button" class="btn btn-warning btn-sm waves-effect mr-2" id="btn-detail" data-name="${row.name}"><i class="fas fa-edit"></i></button>`
+                            }
+                            if (permit.is_delete == 1) {
                                 action += `<button type="button" class="btn btn-danger btn-sm waves-effect" id="btn-delete" data-id="${row.name}"><i class="fas fa-trash"></i></button>`
+                            }
 
                             return action;
                         }

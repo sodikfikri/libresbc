@@ -9,6 +9,7 @@ use App\Models\Enum\RouteModel;
 use App\Jobs\DispatchDataRoute;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Import;
+use App\Imports\DestroyUseFile;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Carbon;
 
@@ -53,7 +54,7 @@ class RouteApiController extends Controller
             $model = new RouteModel();
 
             $count = $model->routev2_count($option);
-            $list = $model->routev2_list($option);
+            $list = $model->routev2_list($option, $req->access);
 
             if (count($list) !== 0) {
                 # success response
@@ -450,6 +451,29 @@ class RouteApiController extends Controller
                     'message' => 'Get data has success full!'
                 ],
                 'data' => $data
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'meta' => [
+                    'code' => '400',
+                    'message' => (string) $th->getMessage()
+                ]
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function DestroyUseFile(Request $request)
+    {
+        try {
+            $data = Excel::import(new DestroyUseFile, request()->file('file'));
+            // dd($data);
+            $response = [
+                'meta' => [
+                    'code' => '200',
+                    'message' => 'Success import data'
+                ]
             ];
             return response()->json($response, 200);
         } catch (\Throwable $th) {

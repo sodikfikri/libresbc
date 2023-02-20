@@ -1,3 +1,22 @@
+@php
+    function Access($menu, $arr, $type) {
+        foreach ($arr as $key => $el) {
+            if ( $menu == $el->name ) {
+                if ($type == 1) { // return data
+                    return $el;
+                } else { // return key
+                    return $key;
+                }
+            }
+        }
+        return false;
+    }
+
+    $data = Access('configuration', json_decode(session()->get('access-menu')), 1);
+    $sub_menu = Access('route_list', $data->sub_menu, 1);
+    $permission = $sub_menu->access;
+@endphp
+
 @section('title', 'Route')
 
 @extends('components.main')
@@ -31,22 +50,30 @@
                     <div role="tabpanel" class="tab-pane active" id="list" aria-expanded="true">
                         <div class="row mb-3">
                             <div class="col-6">
-                                <form class="display-0" id="form-input-file" action="" enctype="multipart/form-data">
-                                    <input type="file" name="file" class="display-0" id="input-file">
-                                    <button type="submit" id="btn-submit-input-file"></button>
-                                </form>
-                                <button class="btn btn-primary" id="import-data">
-                                    <i class="fas fa-download" id="btn-icon-import"></i>
-                                </button>
-                                <button class="btn btn-primary" id="export-data">
-                                    <i class="fas fa-upload" id="btn-icon-export"></i>
-                                </button>
-                                <button class="btn btn-primary" id="delete-multiple"><i class="fas fa-trash"></i></button>
+                                @if ($permission->is_import === 1)
+                                    <form class="display-0" id="form-input-file" action="" enctype="multipart/form-data">
+                                        <input type="file" name="file" class="display-0" id="input-file">
+                                        <button type="submit" id="btn-submit-input-file"></button>
+                                    </form>
+                                    <button class="btn btn-primary" id="import-data">
+                                        <i class="fas fa-download" id="btn-icon-import"></i>
+                                    </button>
+                                @endif
+                                @if ($permission->is_export === 1)
+                                    <button class="btn btn-primary" id="export-data">
+                                        <i class="fas fa-upload" id="btn-icon-export"></i>
+                                    </button>
+                                @endif
+                                @if ($permission->is_delete === 1)
+                                    <button class="btn btn-primary" id="delete-multiple"><i class="fas fa-trash"></i></button>
+                                @endif
                             </div>
-                            <div class="col-6" style="text-align: right">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Data</button>
-                                {{-- <button class="btn btn-primary" id="btn-test">Add Data</button> --}}
-                            </div>
+                            @if ($permission->is_create === 1)
+                                <div class="col-6" style="text-align: right">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Data</button>
+                                    {{-- <button class="btn btn-primary" id="btn-test">Add Data</button> --}}
+                                </div>
+                            @endif
                         </div>
                         <div class="table-responsive">
                             <table class="table" id="dataTable" width="100%" cellspacing="0">
@@ -290,5 +317,8 @@
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var permit = @json($permission);
+</script>
 <script src="{{ asset('assets/js/custom/enum/route.js') }}"></script>
 @endsection
