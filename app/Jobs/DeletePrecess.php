@@ -41,16 +41,16 @@ class DeletePrecess implements ShouldQueue
                     'destination_number' => $val['destination_number'],
                     'code' => 0,
                     'response' => 'SUCCESS',
-                    'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
+                    'created_at' => Carbon::now('Asia/Jakarta')->timestamp
                 ];
-                DB::table('testroutev2')->where('destination_number', $val['destination_number'])->delete();
+                // DB::table('testroutev2')->where('destination_number', $val['destination_number'])->delete();
                 DB::table('msidn_delete_log')->insert($params);
             } else {
                 $params = [
                     'destination_number' => $val['destination_number'],
                     'code' => 10007,
                     'response' => 'MSISDN/IMSI VALUE NOT FOUND IN HSS',
-                    'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
+                    'created_at' => Carbon::now('Asia/Jakarta')->timestamp
                 ];
                 DB::table('msidn_delete_log')->insert($params);
             }

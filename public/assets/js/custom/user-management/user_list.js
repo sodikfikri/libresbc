@@ -182,6 +182,8 @@ jQuery(function($) {
     User.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
+                $('#update').removeClass('display-0')
+
                 User.API.Detail($(this).data('id'))
                 $('#modalDetail').modal('show')
             })
@@ -231,6 +233,13 @@ jQuery(function($) {
                     }
                 })
                 
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+
+                User.API.Detail($(this).data('id'))
+                $('#modalDetail').modal('show')
             })
         }
     }

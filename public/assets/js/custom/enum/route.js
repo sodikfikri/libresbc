@@ -53,11 +53,17 @@ jQuery(function($) {
                         $('#th-check').css('width', '10px')
                     }
                 },
-                pageLength: State.table.length,
+            pageLength: State.table.length,
                 columns: [
                     { data: 'check', orderable: false, className: "text-center" },
                     // { data: 'id', className: "text-center display-0" },
-                    { data: 'destination_number', className: "text-center" },
+                    {
+                        render: function(data, type, row, meta) {
+                            return `<span class="action-name" id="read-data" data-id="${row.id}">${row.destination_number}</span>`
+                        },
+                        className: 'text-center'
+                    },
+                    // { data: 'destination_number', className: "text-center" },
                     { data: 'primary_route', className: "text-center" },
                     { data: 'secondary_route', className: "text-center" },
                     { data: 'action', className: "text-center" },
@@ -414,8 +420,15 @@ jQuery(function($) {
             })
 
             $(document).on('click', '#btn-detail', function() {
+                $('#update-route').removeClass('display-0');
                 Route.API.Detail($(this).data('id'))
             })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update-route').addClass('display-0');
+                Route.API.Detail($(this).data('id'))
+            })
+
             $(document).on('click', '#btn-delete', function() {
                 let idx = $(this).data('id')
                 Swal.fire({

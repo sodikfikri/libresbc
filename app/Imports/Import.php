@@ -26,9 +26,10 @@ class Import implements ToCollection
                 array_push($data, $obj);
             }
         }
-        // bagi per 8000 data
+        // bagi per 5000 data
         $chunk = array_chunk($data, 5000);
-        
+        // dd($chunk[0]);
+        // dd($chunk);
         foreach($chunk as $key => $val) {
             DispatchDataRoute::dispatch($val);
         }

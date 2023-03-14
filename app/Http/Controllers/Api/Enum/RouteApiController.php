@@ -28,7 +28,7 @@ class RouteApiController extends Controller
             $page = ($start > 1 ? ((int)$start / (int)$length)+1 : $start+1);
             $skip = ($page === 1 ? 0 : $page-1) * $numPerPage;
             $limit = $skip . ',' . $numPerPage;
-
+            
             $listCheckerColumn = [
                 '0' => 'destination_number',
                 '1' => 'destination_number',
@@ -50,12 +50,12 @@ class RouteApiController extends Controller
                     'dir' => $req->order[0]['dir'] ?? 'desc',
                 ],
             ];
-
+            // dd($option);
             $model = new RouteModel();
 
             $count = $model->routev2_count($option);
             $list = $model->routev2_list($option, $req->access);
-
+            // dd($count);
             if (count($list) !== 0) {
                 # success response
                 $response = [

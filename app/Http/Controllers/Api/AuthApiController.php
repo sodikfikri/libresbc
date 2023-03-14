@@ -28,21 +28,17 @@ class AuthApiController extends Controller
                 'password' => 'required',
             ]);
 
-            if($validator->fails()) throw new Exception($validator->errors()->first());
+            if($validator->fails()) {
+                return back()->with("error", $validator->errors()->first());
+            } 
             
             $user = DB::select('select * from users where username = "'.$username.'"');
             if (count($user) == 0) {
-                $response = [
-                    'meta' => [
-                        'code' => '404',
-                        'message' => 'User not found!'
-                    ]
-                ];
-                return response()->json($response, 200);
+                return back()->with("error", "User Not Found");
             }
             
             if(!Hash::check($password, $user[0]->password)) {
-                throw new Exception('Username or Password is wrong!');
+                return back()->with("error", "Invalid Password");
             }
             
             $access_menu = $this->access_menu($user[0]->role_id);

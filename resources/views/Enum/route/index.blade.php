@@ -99,7 +99,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="jobs" aria-expanded="true">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="table-jobs" width="100%" cellspacing="0">
+                            <table class="table" id="table-jobs" width="100%" cellspacing="0">
                                 <thead>
                                     <th style="width: 10px">No</th>
                                     <th>Queue</th>
@@ -112,7 +112,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="ins-failed" aria-expanded="true">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="table-failed" width="100%" cellspacing="0">
+                            <table class="table" id="table-failed" width="100%" cellspacing="0">
                                 <thead>
                                     <th>No</th>
                                     <th>Destination Number</th>

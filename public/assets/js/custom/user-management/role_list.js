@@ -142,6 +142,7 @@ jQuery(function($) {
     Roles.Event = {
         active: function() {
             $(document).on('click', '#btn-detail', function() {
+                $('#update').removeClass('display-0')
                 Roles.API.Detail($(this).data('id'))
             })
 
@@ -180,6 +181,11 @@ jQuery(function($) {
                         Roles.API.Delete(params)
                     }
                 })
+            })
+
+            $(document).on('click', '#read-data', function() {
+                $('#update').addClass('display-0')
+                Roles.API.Detail($(this).data('id'))
             })
         }
     }

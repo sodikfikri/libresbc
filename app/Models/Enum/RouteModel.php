@@ -26,6 +26,7 @@ class RouteModel extends Model
         $Obj = [];
         // search query
         $serchX = ($option['search'] == "") ? '' : ' WHERE (destination_number LIKE "%'.$option['search'].'%" OR primary_route LIKE "%'.$option['search'].'%" OR secondary_route LIKE "%'.$option['search'].'%") ';
+
         $data = DB::select('SELECT *,
                             CASE
                                 WHEN primary_route = "141" then "TELIN_IP_HK"
@@ -195,7 +196,7 @@ class RouteModel extends Model
     public function data_master_primary()
     {
         $data = DB::table('master_primary')->select('id', 'name', 'is_active')->where('is_active', 1)->get();
-        // $data = DB::table('getroutev2')->where('destination_number', '+'.'67074508336')->get();
+        
         return $data;
     }
 }
